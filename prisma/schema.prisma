@@ -1,0 +1,180 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model TypeOfCard {
+  id   String @id @default(uuid())
+  name String @unique
+
+  // This generate a relation with the the Card model
+  Card Card[]
+}
+
+model Attribute {
+  id   String @id @default(uuid())
+  name String @unique
+
+  // This generate a relation with the the Card model
+  Card Card[]
+}
+
+model Type {
+  id   String @id @default(uuid())
+  name String @unique
+
+  // This generate a relation with the the Card model
+  Card Card[]
+}
+
+model MonsterInvocations {
+  id   String @id @default(uuid())
+  name String @unique
+
+  // This generate a relation with the the Card model
+  Card Card[]
+}
+
+model MonsterPrimaryTypes {
+  id   String @id @default(uuid())
+  name String @unique
+
+  MonsterPrimaryTypesCard MonsterPrimaryTypesCard[]
+}
+
+model MonsterPrimaryTypesCard {
+  id String @id @default(uuid())
+
+  // This generate a relation with MonsterPrimaryTypes
+  monsterPrimaryType   MonsterPrimaryTypes @relation(fields: [monsterPrimaryTypeId], references: [id])
+  monsterPrimaryTypeId String
+
+  // This generate a relation with Card model
+  card   Card   @relation(fields: [cardId], references: [id])
+  cardId String
+}
+
+model MonsterSecondaryTypes {
+  id   String @id @default(uuid())
+  name String @unique
+
+  // This generate a relation with the the Card model
+  Card Card[]
+}
+
+model MonsterAbility {
+  id   String @id @default(uuid())
+  name String @unique
+
+  // This generate a relation with the Card model
+  Card Card[]
+}
+
+model LinkArrows {
+  id   String @id @default(uuid())
+  name String @unique
+
+  // This generate a relation with the linkArrowsCard model
+  linkArrowsCard LinkArrowsCard[]
+}
+
+model LinkArrowsCard {
+  id String @id @default(uuid())
+
+  // This generate a relation with LinkArrows
+  linkArrows   LinkArrows @relation(fields: [linkArrowsId], references: [id])
+  linkArrowsId String
+
+  // This generate a relation with Card model
+  card   Card   @relation(fields: [cardId], references: [id])
+  cardId String
+}
+
+model SpellType {
+  id   String @id @default(uuid())
+  name String @unique
+
+  card Card[]
+}
+
+model TrapType {
+  id   String @id @default(uuid())
+  name String @unique
+
+  card Card[]
+}
+
+model Rarity {
+  id   String @id @default(uuid())
+  name String @unique
+
+  card Card[]
+}
+
+model CardImage {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  card   Card   @relation(fields: [cardId], references: [id])
+  cardId String
+}
+
+model Card {
+  id String @id @default(uuid())
+
+  name     String
+  cardText String
+  password Int
+
+  level          Int?
+  rank           Int?
+  link           Int?
+  attack_points  String?
+  defense_points String?
+  pendulumEffect String?
+  pendulumScale  Int?
+
+  price Float @default(0)
+
+  // Relations
+  typeOfCard   TypeOfCard @relation(fields: [typeOfCardId], references: [id])
+  typeOfCardId String
+
+  attribute   Attribute? @relation(fields: [attributeId], references: [id])
+  attributeId String?
+
+  type   Type?   @relation(fields: [typeId], references: [id])
+  typeId String?
+
+  monsterInvocation   MonsterInvocations? @relation(fields: [monsterInvocationId], references: [id])
+  monsterInvocationId String?
+
+  monsterPrimaryTypesCard MonsterPrimaryTypesCard[]
+
+  monsterSecondaryTypes   MonsterSecondaryTypes? @relation(fields: [monsterSecondaryTypesId], references: [id])
+  monsterSecondaryTypesId String?
+
+  monsterAbility   MonsterAbility? @relation(fields: [monsterAbilityId], references: [id])
+  monsterAbilityId String?
+
+  LinkArrowsCard LinkArrowsCard[]
+
+  spellType   SpellType? @relation(fields: [spellTypeId], references: [id])
+  spellTypeId String?
+
+  trapType   TrapType? @relation(fields: [trapTypeId], references: [id])
+  trapTypeId String?
+
+  rarity   Rarity? @relation(fields: [rarityId], references: [id])
+  rarityId String?
+
+  cardImage CardImage[]
+
+  // Indices
+  // @@index([attribute])
+  // @@index([type])
+}

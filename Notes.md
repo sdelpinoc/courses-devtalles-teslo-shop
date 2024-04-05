@@ -1,0 +1,135 @@
+# Teslo Shop
+
+## Start the project
+
+- `npx create-next-app@latest 04-teslo-shop`
+- Go to 04-teslo-shop directory:
+  - Leave only the main HTML tag in src/app/page.tsx and modify global.css according to the requirements
+  - Run: `npm run dev`
+  - Go to http://localhost:3000
+
+## Nextjs Fonts
+
+- You can create a folder in the src directory, called fonts.ts, with:
+
+```
+import { Inter, Montserrat_Alternates } from "next/font/google";
+
+export const inter = Inter({ subsets: ["latin"] });
+
+export const titleFont = Montserrat_Alternates({ subsets: ["latin"], weight: ['500', '700'] })
+```
+
+- And there declare the fonts we want to use in our project
+
+## Installations
+
+### React Icons
+
+- https://react-icons.github.io/react-icons/
+- `npm install react-icons`
+
+### Lodash
+
+- To create a slug for the url from the name of the cards
+- https://www.npmjs.com/package/lodash
+- `npm install lodash`
+- `npm install --save @types/lodash`
+- Use:
+
+```
+import lodash from "lodash"
+.
+.
+.
+lodash.kebabCase(card.name)
+```
+
+### Zustand
+
+- https://zustand-demo.pmnd.rs/
+- `npm install zustand`
+
+### CLSX
+
+- To include or not include tailwindcss classes according to logical expressions
+- https://www.npmjs.com/package/clsx
+- `npm install clsx`
+
+### Swiper
+
+- https://swiperjs.com/
+- `npm install swiper`
+- https://swiperjs.com/demos#thumbs-gallery -> Implement slider
+
+### TS-Node
+
+- [ts-node](https://www.npmjs.com/package/ts-node)
+- `npm install ts-node --save-dev`
+
+## Info
+
+- @ -> It is used to refer to the base route of the application
+
+## Database
+
+- First you need to install docker-desktop, and run it.
+- Create a docker-compose.yml o docker-compose.yaml file in the root of the project
+- Run:
+
+  - `docker compose up -d`
+
+- This will create a container with 2 services, postresql and pgadmin
+
+- Credentials(This are stablish in docker-compose file)
+
+  - Url: http://localhost:8080
+  - User: user@domain.com
+  - Password: 123456
+
+- To connect to the database(Register a Server) in pgAdmin, use the name of the container(or the name of the services) as a host:
+- postgres-db is a arbitrary name
+
+  - Name: postgres -> Arbitrary name of the server
+  - Host: postgres-db(container or service name of docker)
+  - User: ${DB_USER} -> Obtain from .env
+  - Password: ${DB_PASSWORD} -> Obtain from .env
+
+- For the environment variables of postgres, we create a .env file in the project root
+
+### Seed
+
+- We need to create a file that populate the database, for this, in ./src/seed, we run
+  - `npx tsc --init`
+- Then we create a file called seed-db.ts, and add to script of package.json the following line:
+- We use the ts-node library
+
+```
+"seed": "ts-node .\\src\\seed\\seed-db.ts",
+```
+
+
+### Prisma
+
+- https://www.prisma.io/
+- [Relational Database](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases-typescript-postgresql)
+
+- `npm install prisma --save-dev`
+- `npx prisma init --datasource-provider PostgreSQL`
+
+- This will add the environment variable DATABASE_URL in the .env file, we need to change the user, password and db name
+
+- To generate the schema from the database, run:
+
+  - `npx prisma db pull`
+
+- This schema is created added in prisma/schema.prisma
+
+- To generate a migration:
+  - `npx prisma migrate dev --name CardTypeOfCard`
+
+- To generate a Prisma client
+  - `npx prisma generate`
+  - This generate a code, which we can copy to a file(/src/lib/prisma.ts) and export it
+
+  - Or also, we can use the following code for [Next.js](https://www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/nextjs-prisma-client-dev-practices)
