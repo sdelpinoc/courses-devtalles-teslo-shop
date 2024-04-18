@@ -399,7 +399,7 @@ export const initialData: SeedData = {
       pendulumScale: 3,
       price: 81,
       rarity: 'Normal',
-      images: ['']
+      images: []
     },
   ],
   cardsToInsert: [

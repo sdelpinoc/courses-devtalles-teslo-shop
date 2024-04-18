@@ -1,11 +1,31 @@
 
+export const revalidate = 60 // 60 seconds
+
+import { redirect } from "next/navigation";
+
+import { getPaginatedCardsWithImages } from "@/actions/card/card-pagination";
 import { CardGrid } from "@/components/cards/card-grid/CardGrid";
 import { Title } from "@/components/ui/title/Title";
-import { initialData } from "@/seed/seed-yugioh";
+import { Pagination } from "@/components/ui/pagination/Pagination";
+// import { initialData } from "@/seed/seed-yugioh";
+// const cards = initialData.cards
 
-const cards = initialData.cards
+interface Props {
+  searchParams: {
+    page?: string
+  }
+}
 
-export default function Home () {
+export default async function Home ({ searchParams }: Props) {
+  const page = searchParams.page ? parseInt(searchParams.page) : 1
+
+  const { cards, totalPages } = await getPaginatedCardsWithImages({ page })
+  // console.log( {totalPages }  )
+
+  if (cards.length === 0) {
+    redirect('/')
+  }
+
   return (
     <>
       <Title
@@ -16,6 +36,7 @@ export default function Home () {
       <CardGrid
         cards={cards}
       />
+      <Pagination totalPages={totalPages} />
     </>
   );
 }

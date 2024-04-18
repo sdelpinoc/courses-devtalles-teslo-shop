@@ -1,5 +1,5 @@
 export interface Card {
-  // id: string
+  id: string
   typeOfCard: TypeOfCard
   name: string
   password: number
@@ -29,6 +29,7 @@ export interface Card {
   price: number,
   rarity: Rarities
   images: string[]
+  inStock: number
 }
 
 // Types of monsters(some examples, not all combinations):

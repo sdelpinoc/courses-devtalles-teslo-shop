@@ -64,7 +64,8 @@ async function main () {
         monsterAbilityId: monsterAbilityMap[card.monsterAbility?.toLowerCase()!],
         spellTypeId: spellTypeMap[card.spellType?.toLowerCase()!],
         trapTypeId: trapTypeMap[card.trapType?.toLowerCase()!],
-        rarityId: rarityMap[card.rarity.toLowerCase()]
+        rarityId: rarityMap[card.rarity.toLowerCase()],
+        slug: lodash.kebabCase(card.name)
       }
     })
 

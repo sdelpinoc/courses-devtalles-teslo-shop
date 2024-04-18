@@ -1,10 +1,16 @@
 'use client'
-import { titleFont } from "@/config/fonts"
-import { useUIStore } from "@/store/ui/ui-store"
+
+import { usePathname } from "next/navigation"
 import Link from "next/link"
+
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5"
 
+import { titleFont } from "@/config/fonts"
+import { useUIStore } from "@/store/ui/ui-store"
+import clsx from "clsx"
+
 export const TopMenu = () => {
+  const pathname = usePathname()
   const openMenu = useUIStore(state => state.openSideMenu)
 
   return (
@@ -18,14 +24,22 @@ export const TopMenu = () => {
       </div>
       {/* Center menu */}
       <div className="hidden sm:block mt-2">
-        <Link className="m-2 p-2 rounded-md transition-all hover:bg-gradient-to-r from-monster-normal to-monster-effect" href="/category/monster">
+        <Link className={clsx('m-2 p-2 rounded-md transition-all hover:bg-gradient-to-r from-monster-normal to-monster-effect',
+          {
+            'border-b-2 border-b-monster-effect': pathname.includes('monster')
+          })} href="/typeOfCard/monster">
           Monsters
         </Link>
-        <Link className="m-2 p-2 rounded-md transition-all hover:bg-spell" href="/category/spell">
+        <Link className={clsx('m-2 p-2 rounded-md transition-all hover:bg-spell',
+          {
+            'border-b-2 border-b-spell': pathname.includes('spell')
+          })} href="/typeOfCard/spell">
           Spells
         </Link>
-        <Link className="m-2 p-2 rounded-md transition-all hover:bg-trap" href="/category/trap">
-          Trap
+        <Link className={clsx('m-2 p-2 rounded-md transition-all hover:bg-trap', {
+          'border-b-2 border-b-trap': pathname.includes('trap')
+        })} href="/typeOfCard/trap">
+          Traps
         </Link>
         {/* <Link className="m-2 p-2 rounded-md transition-all hover:bg-character" href="/category/characters">
           Characters

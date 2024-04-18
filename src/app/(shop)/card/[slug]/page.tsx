@@ -1,16 +1,21 @@
+export const revalidate = 604800 // ~7 days
+
 import Image from "next/image"
 import { notFound } from "next/navigation"
+import { Metadata, ResolvingMetadata } from "next"
 
 import clsx from "clsx"
 import lodash from "lodash"
 
 import { titleFont } from "@/config/fonts"
-import { initialData } from "@/seed/seed-yugioh"
+// import { initialData } from "@/seed/seed-yugioh"
 
 import { RaritySelector } from "@/components/card/rarity-selector/RaritySelector"
 import { QuantitySelector } from "@/components/card/quantity-selector/QuantitySelector"
 import { SlideShow } from "@/components/card/slide-show/Slideshow"
 import { MobileSlideShow } from "@/components/card/slide-show/MobileSlideShow"
+import { getCardBySlug } from "@/actions/card/get-card-by-slug"
+import { StockLabel } from "@/components/card/stock-label/StockLabel"
 
 interface Props {
   params: {
@@ -18,10 +23,33 @@ interface Props {
   }
 }
 
-export default function CardPageWithSlug ({ params }: Props) {
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const slug = params.slug
+ 
+  const card = await getCardBySlug(slug)
+ 
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
+ 
+  return {
+    title: card?.name ?? 'Card name not found',
+    openGraph: {
+      images: [`http://localhost:3000/img/cards/${card?.password}.jpg` || '', ...previousImages],
+    },
+  }
+}
+
+export default async function CardPageWithSlug ({ params }: Props) {
   const { slug } = params
 
-  const card = initialData.cards.find(card => lodash.kebabCase(card.name) === slug)
+  // const card = initialData.cards.find(card => lodash.kebabCase(card.name) === slug)
+  const card = await getCardBySlug(slug)
+  // console.log({ card })
+  // console.log({ 'card.monsterPrimaryTypes': card?.monsterPrimaryTypes })
 
   if (!card) {
     notFound()
@@ -33,40 +61,40 @@ export default function CardPageWithSlug ({ params }: Props) {
   let bgCardColor = ''
   let bgCardColorBody = ''
   let borderCardColor = ''
-  if (card.typeOfCard === 'MONSTER') {
-    if (card.monsterInvocation === 'LINK') {
+  if (card.typeOfCard === 'Monster') {
+    if (card.monsterInvocation === 'Link') {
       bgCardColor = `bg-monster-link`
       bgCardColorBody = `bg-monster-link/40`
       borderCardColor = 'border-monster-link'
-    } else if (card.monsterInvocation === 'SYNCHRO') {
+    } else if (card.monsterInvocation === 'Synchro') {
       bgCardColor = `bg-monster-synchro`
       bgCardColorBody = `bg-monster-synchro/40`
       borderCardColor = 'border-monster-synchro'
-    } else if (card.monsterInvocation === 'FUSION') {
+    } else if (card.monsterInvocation === 'Fusion') {
       bgCardColor = `bg-monster-fusion`
       bgCardColorBody = `bg-monster-fusion/40`
       borderCardColor = `border-monster-fusion`
-      if (card.monsterPrimaryTypes?.includes('PENDULUM')) {
+      if (card.monsterPrimaryTypes?.includes('Pendulum')) {
         bgCardColor = `bg-gradient-to-b from-monster-fusion to-spell`
         bgCardColorBody = `bg-gradient-to-b from-monster-fusion/80 to-spell/40`
         borderCardColor = `border-monster-fusion`
       }
-    } else if (card.monsterInvocation === 'RITUAL') {
+    } else if (card.monsterInvocation === 'Ritual') {
       bgCardColor = `bg-monster-ritual`
       bgCardColorBody = `bg-monster-ritual/40`
       borderCardColor = `border-monster-ritual`
-    } else if (card.monsterInvocation === 'XYZ') {
+    } else if (card.monsterInvocation === 'Xyz') {
       bgCardColor = `bg-monster-xyz`
       bgCardColorBody = `bg-monster-xyz/40`
       borderCardColor = `border-monster-xyz`
-      if (card.monsterPrimaryTypes?.includes('PENDULUM')) {
+      if (card.monsterPrimaryTypes?.includes('Pendulum')) {
         bgCardColor = `bg-gradient-to-b from-monster-xyz to-spell`
         bgCardColorBody = `bg-gradient-to-b from-monster-xyz/50 to-spell/40`
         borderCardColor = `border-monster-xyz`
       }
-    } else if (card.monsterInvocation === 'PENDULUM') {
+    } else if (card.monsterInvocation === 'Pendulum') {
       // gradient-to-r from-monster-normal-bg to-monster-effect-bg
-      if (card.monsterPrimaryTypes?.includes('EFFECT')) {
+      if (card.monsterPrimaryTypes?.includes('Effect')) {
         bgCardColor = `bg-gradient-to-b from-monster-effect to-spell`
         bgCardColorBody = `bg-gradient-to-b from-monster-effect/80 to-spell/40`
         borderCardColor = `border-monster-effect`
@@ -76,7 +104,7 @@ export default function CardPageWithSlug ({ params }: Props) {
         borderCardColor = `border-monster-normal`
       }
     } else {
-      if (card.monsterPrimaryTypes?.includes('EFFECT')) {
+      if (card.monsterPrimaryTypes?.includes('Effect')) {
         bgCardColor = `bg-monster-effect`
         bgCardColorBody = `bg-monster-effect/40`
         borderCardColor = `border-monster-effect`
@@ -86,11 +114,11 @@ export default function CardPageWithSlug ({ params }: Props) {
         borderCardColor = `border-monster-normal`
       }
     }
-  } else if (card.typeOfCard === 'SPELL') {
+  } else if (card.typeOfCard === 'Spell') {
     bgCardColor = `bg-spell`
     bgCardColorBody = `bg-spell/40`
     borderCardColor = `border-spell`
-  } else if (card.typeOfCard === 'TRAP') {
+  } else if (card.typeOfCard === 'Trap') {
     bgCardColor = `bg-trap`
     bgCardColorBody = `bg-trap/40`
     borderCardColor = `border-trap`
@@ -134,13 +162,15 @@ export default function CardPageWithSlug ({ params }: Props) {
       <h1 className={
         clsx(`${titleFont.className} antialiased font-bold text-sm sm:text-xl text-center rounded py-2 sticky top-0 ${bgCardColor} opacity-90 z-10`,
           {
-            'text-white': card.monsterInvocation === 'XYZ'
+            'text-white': card.monsterInvocation === 'Xyz'
           }
         )}>
         {card.name}
       </h1>
       {/* Slideshow */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 mt-2 lg:gap-1">
+      <div className={clsx(`grid grid-cols-1 lg:grid-cols-3 mt-2 lg:gap-1`, {
+        "justify-items-center items-center": card.images.length === 0
+      })}>
         <div className="col-span-1 lg:col-span-1">
           {
             card.images.length > 0
@@ -177,14 +207,14 @@ export default function CardPageWithSlug ({ params }: Props) {
                 {lodash.capitalize(card.typeOfCard)}
               </span>
               {
-                card.typeOfCard === 'SPELL' && (<Image className="inline ml-1 align-middle" src={`/img/SPELL.svg`} alt={card.typeOfCard} width={28} height={28} />)
+                card.typeOfCard === 'Spell' && (<Image className="inline ml-1 align-middle" src={`/img/Spell.svg`} alt={card.typeOfCard} width={28} height={28} />)
               }
               {
-                card.typeOfCard === 'TRAP' && (<Image className="inline ml-1 align-middle" src={`/img/TRAP.svg`} alt={card.typeOfCard} width={28} height={28} />)
+                card.typeOfCard === 'Trap' && (<Image className="inline ml-1 align-middle" src={`/img/Trap.svg`} alt={card.typeOfCard} width={28} height={28} />)
               }
             </div>
             {
-              card.typeOfCard === 'SPELL' &&
+              card.typeOfCard === 'Spell' &&
               (
                 <div className="flex">
                   <p className="font-bold mr-1">Property:</p>
@@ -194,7 +224,7 @@ export default function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.typeOfCard === 'TRAP' &&
+              card.typeOfCard === 'Trap' &&
               (
                 <div className="flex">
                   <p className="font-bold mr-1">Property:</p>
@@ -204,7 +234,7 @@ export default function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.typeOfCard === 'MONSTER' && (
+              card.typeOfCard === 'Monster' && (
                 <div className="flex">
                   <p className="font-bold mr-1">Attribute:</p>
                   <span>{card.attribute}</span>
@@ -213,7 +243,7 @@ export default function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.typeOfCard === 'MONSTER' && (
+              card.typeOfCard === 'Monster' && (
                 <div className="flex">
                   {/* Types/MonsterInvocation?/MonsterAbility?/MonsterSecondaryType?/MonsterPrimaryType? */}
                   <p className="font-bold mr-1">Types:</p><span>{card.type} {card.monsterInvocation ? ` / ${lodash.capitalize(card.monsterInvocation)}` : ''}{card.monsterAbility ? ` / ${lodash.capitalize(card.monsterAbility)}` : ``}{card.monsterSecondaryTypes ? ` / ${lodash.capitalize(card.monsterSecondaryTypes)}` : ``} {card.monsterPrimaryTypes ? ` / ${lodash.capitalize(card.monsterPrimaryTypes.join(' / '))}` : ``}</span>
@@ -254,14 +284,14 @@ export default function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.monsterPrimaryTypes?.includes('PENDULUM') && (
+              card.monsterPrimaryTypes?.includes('Pendulum') && (
                 <div className="flex">
                   <p className="font-bold mr-1">Pendulum scale:</p><Image className="inline align-middle mr-1" src={`/img/Pendulum_Scale.png`} alt="Pendulum Scale" width={20} height={20} /><span>{card.pendulumScale}</span>
                 </div>
               )
             }
             {
-              card.typeOfCard === 'MONSTER' && card.monsterInvocation === 'LINK' && (
+              card.typeOfCard === 'Monster' && card.monsterInvocation === 'LINK' && (
                 <div className="flex">
                   <p className="font-bold mr-1">Links Arrows:</p>
                   {
@@ -330,14 +360,14 @@ export default function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.typeOfCard === 'MONSTER' && card.monsterInvocation !== 'LINK' && (
+              card.typeOfCard === 'Monster' && card.monsterInvocation !== 'LINK' && (
                 <div className="flex">
                   <p className="font-bold mr-1">ATK / DEF:</p><span>{card.attack_points} / {card.defense_points}</span>
                 </div>
               )
             }
             {
-              card.typeOfCard === 'MONSTER' && card.monsterInvocation === 'LINK' && (
+              card.typeOfCard === 'Monster' && card.monsterInvocation === 'LINK' && (
                 <div className="flex">
                   <p className="font-bold mr-1">ATK / LINK:</p><span>{card.attack_points} / {card.link}</span>
                 </div>
@@ -350,7 +380,7 @@ export default function CardPageWithSlug ({ params }: Props) {
           {/* Description */}
           <h3 className="font-bold mt-2">Description:</h3>
           {
-            card.monsterPrimaryTypes?.includes('PENDULUM')
+            card.monsterPrimaryTypes?.includes('Pendulum')
               ? (
                 <p className={`bg-white p-2 border-2 ${borderCardColor} border rounded font-light`}>
                   <span className="font-semibold block">Pendulum Effect</span>
@@ -368,6 +398,7 @@ export default function CardPageWithSlug ({ params }: Props) {
           <p className="text-lg mb-5">
             ${card.price}
           </p>
+          <StockLabel slug={card.slug} />
           <RaritySelector availableRarities={['Normal', 'Rare']} selectedRarity={card.rarity} />
           <QuantitySelector quantity={2} />
           {/* Button */}

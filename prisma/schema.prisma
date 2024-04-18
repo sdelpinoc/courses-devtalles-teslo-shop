@@ -138,7 +138,9 @@ model Card {
   pendulumEffect String?
   pendulumScale  Int?
 
+  slug String @default("")
   price Float @default(0)
+  inStock Int @default(10)
 
   // Relations
   typeOfCard   TypeOfCard @relation(fields: [typeOfCardId], references: [id])
@@ -171,6 +173,7 @@ model Card {
 
   rarity   Rarity? @relation(fields: [rarityId], references: [id])
   rarityId String?
+
 
   cardImage CardImage[]
 

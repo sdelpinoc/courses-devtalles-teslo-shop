@@ -18,7 +18,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 4. Run Prisma migrations
 
-- `npx prisma migrate dev --name`
+- `npx prisma migrate dev`
 
 5. Execute seed
 
@@ -29,7 +29,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
    - `npm run dev`
    - Go to http://localhost:3000/
 
-7. For the database:
+7. For the database administrator:
    - pgAdmin credencial:
      - Url: http://localhost:8080
      - User: user@domain.com

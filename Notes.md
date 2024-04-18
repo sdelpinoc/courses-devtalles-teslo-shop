@@ -71,6 +71,9 @@ lodash.kebabCase(card.name)
 
 - @ -> It is used to refer to the base route of the application
 
+- Tailwind components:
+  - [Pagination](https://tailwindcomponents.com/component/pagination-3)
+
 ## Database
 
 - First you need to install docker-desktop, and run it.
@@ -123,7 +126,7 @@ lodash.kebabCase(card.name)
 
   - `npx prisma db pull`
 
-- This schema is created added in prisma/schema.prisma
+- The schema is created and added to /prisma/schema.prisma
 
 - To generate a migration:
   - `npx prisma migrate dev --name CardTypeOfCard`
@@ -133,3 +136,16 @@ lodash.kebabCase(card.name)
   - This generate a code, which we can copy to a file(/src/lib/prisma.ts) and export it
 
   - Or also, we can use the following code for [Next.js](https://www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/nextjs-prisma-client-dev-practices)
+
+### Ngrok
+
+  - For testing the app with a public url
+  - https://ngrok.com/
+  - Install the app for windows, then run:
+  - `ngrok config add-authtoken [authtoken]`
+
+  - Then use the Forwarding url
+
+### Opengraph
+  - https://opengraph.dev/
+  - https://www.opengraph.xyz/

@@ -3,9 +3,12 @@ import "./globals.css";
 import { inter } from "@/config/fonts";
 
 export const metadata: Metadata = {
-  title: "Teslo Shop",
-  description: "A Yu-Gi-Oh! Card Shop",
-};
+  title: {
+    template: "%s | Teslo Shop",
+    default: 'Home | Teslo Shop'
+  },
+  description: 'A Yu-Gi-Oh! Card Shop',
+}
 
 export default function RootLayout ({
   children,

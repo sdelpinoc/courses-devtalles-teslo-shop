@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Card" ADD COLUMN     "inStock" INTEGER NOT NULL DEFAULT 10;
