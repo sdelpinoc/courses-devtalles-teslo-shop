@@ -8,10 +8,20 @@ import { IoCartOutline, IoSearchOutline } from "react-icons/io5"
 import { titleFont } from "@/config/fonts"
 import { useUIStore } from "@/store/ui/ui-store"
 import clsx from "clsx"
+import { useCartStore } from "@/store/cart/cart-store"
+import { useEffect, useState } from "react"
 
 export const TopMenu = () => {
   const pathname = usePathname()
   const openMenu = useUIStore(state => state.openSideMenu)
+  const totalItemsInCart = useCartStore(state => state.getTotalItems())
+
+  const [loaded, setLoaded] = useState(false)
+
+  // The use of the state and effect hooks, is for correct the hydrations errors
+  useEffect(() => {
+    setLoaded(true)
+  }, [])
 
   return (
     <nav className="flex px-5 justify-between items-center w-full">
@@ -50,9 +60,13 @@ export const TopMenu = () => {
         <Link href="/search">
           <IoSearchOutline className="w-5 h-5" />
         </Link>
-        <Link href="/cart">
+        <Link href={(loaded && totalItemsInCart > 0) ? '/cart' : '/empty'}>
           <div className="relative">
-            <span className="absolute text-xs rounded-full px-1 font-bold -top-2 -right-2 bg-golden-yugioh text-white">3</span>
+            {
+              loaded && (totalItemsInCart > 0) && (
+                <span className="fade-in absolute text-xs rounded-full px-1 font-bold -top-2 -right-2 bg-golden-yugioh text-white">{totalItemsInCart}</span>
+              )
+            }
             <IoCartOutline className="w-5 h-5" />
           </div>
         </Link>

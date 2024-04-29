@@ -26,6 +26,8 @@ async function main () {
   await prisma.trapType.deleteMany()
   await prisma.rarity.deleteMany()
 
+  await prisma.user.deleteMany()
+
   // ])
   console.log('Rows deleted...')
 
@@ -33,7 +35,7 @@ async function main () {
     typesOfCard, attributes, types,
     monsterInvocations, monsterPrimaryTypes, monsterSecondaryTypes, monsterAbilities,
     linkArrows, spellTypes, trapTypes, rarities,
-    cards
+    cards, users
   } = initialData
 
   const typeOfCardMap = await typeOfCardInsert(typesOfCard)
@@ -106,7 +108,12 @@ async function main () {
     }
   })
 
-  console.log('Seed execute')
+  // User to insert
+  await prisma.user.createMany({
+    data: users
+  })
+
+  console.log('Seed execute...')
 }
 
 async function typeOfCardInsert (typesOfCard: TypesOfCard[]) {

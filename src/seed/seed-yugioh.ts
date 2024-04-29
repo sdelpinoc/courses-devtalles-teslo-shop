@@ -1,3 +1,5 @@
+import bcryptjs from "bcryptjs"
+
 interface SeedCard {
   typeOfCard: TypesOfCard
   name: string
@@ -31,74 +33,12 @@ interface SeedCard {
   images: string[]
 }
 
-interface SeedCardToInsert {
-  typeOfCard: TypesOfCard
+interface SeedUser {
+  email: string
+  password: string
   name: string
-  password: number
-  cardText: string
-
-  attribute?: Attributes
-  type?: Types
-  monsterInvocation?: MonsterInvocations
-  monsterPrimaryTypes?: MonsterPrimaryTypes[]
-  monsterSecondaryTypes?: MonsterSecondaryTypes
-  monsterAbility?: MonsterAbilities
-  level?: number
-  rank?: number
-  link?: number
-  attack_points?: string
-  defense_points?: string
-
-  pendulumEffect?: string
-  pendulumScale?: number
-
-  linkArrows?: LinkArrows[]
-
-  spellType?: SpellTypes
-
-  trapType?: TrapTypes
-
-  // Extra field, only for this course
-  price: number
-  rarity: Rarities
-  images: string[]
+  role: 'admin' | 'user'
 }
-
-// Types of monsters(some examples, not all combinations):
-
-// Ritual:
-// DRAGON/RITUAL/EFFECT
-
-// Pendulum:
-// WARRIOR/PENDULUM/Normal
-// FAIR/PENDULUM/EFFECT
-
-// Normal, Effect:
-// BEAST/EFFECT
-// AQUA/Normal
-
-// FAIRY/SPIRIT/EFFECT
-// WARRIOR/TOON/EFFECT
-// MACHINE/UNION/EFFECT
-// ROCK/FLIP/EFFECT
-// WINGED BEAST/GEMINI/EFFECT
-
-// Xyz:
-// BEAST/XYZ/EFFECT
-// DRAGON/XYZ/PENDULUM/EFFECT
-
-// Link:
-// SPELLCASTER/LINK/EFFECT
-
-// Synchro:
-// SPELLCASTER/SYNCHRO/TUNER/EFFECT
-
-// Ritual:
-// INSECT/RITUAL
-
-// Fusion:
-// BEAST-WARRIOR/FUSION/EFFECT
-// DRAGON/FUSION/PENDULUM/EFFECT
 
 // ? => Optional
 // Types/MonsterInvocation?/MonsterAbility?/MonsterSecondaryType?/MonsterPrimaryType?
@@ -146,8 +86,8 @@ interface SeedData {
   spellTypes: SpellTypes[]
   trapTypes: TrapTypes[]
   rarities: Rarities[]
-  cards: SeedCard[],
-  cardsToInsert: SeedCardToInsert[]
+  cards: SeedCard[]
+  users: SeedUser[]
 }
 
 export const initialData: SeedData = {
@@ -402,34 +342,18 @@ export const initialData: SeedData = {
       images: []
     },
   ],
-  cardsToInsert: [
+  users: [
     {
-      typeOfCard: 'MONSTER',
-      name: 'Baby Raccoon Ponpoko',
-      cardText: `When this card is Normal Summoned: You can Special Summon 1 Level 2 Beast monster from your Deck in face-down Defense Position, except "Baby Raccoon Ponpoko". You cannot Special Summon monsters the turn you activate this effect, except Beast monsters.`,
-      password: 92729410,
-
-      attribute: 'EARTH',
-      type: 'Beast',
-      // monsterInvocation: '',
-      monsterPrimaryTypes: ['EFFECT'],
-      // monsterSecondaryTypes: '',
-      // monsterAbility: '',
-      level: 2,
-      // rank: '',
-      // link: '',
-      attack_points: '800',
-      defense_points: '0',
-      // pendulumEffect: '',
-      // pendulumScale: 2,
-      // linkArrows: [''],
-
-      // spellType: '',
-
-      // trapType: ''
-      price: 51,
-      rarity: 'Normal',
-      images: ['92729410_1.jpg', '92729410_2.jpg']
+      email: 'sdelpinocampos@hotmail.com',
+      password: bcryptjs.hashSync('123456', 10),
+      name: 'Sergio del Pino',
+      role: "admin"
+    },
+    {
+      email: 'chibi801@hotmail.com',
+      password: bcryptjs.hashSync('123456', 10),
+      name: 'Andrés Campos',
+      role: "user"
     }
   ]
 }

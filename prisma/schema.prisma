@@ -138,9 +138,9 @@ model Card {
   pendulumEffect String?
   pendulumScale  Int?
 
-  slug String @default("")
-  price Float @default(0)
-  inStock Int @default(10)
+  slug    String @default("")
+  price   Float  @default(0)
+  inStock Int    @default(10)
 
   // Relations
   typeOfCard   TypeOfCard @relation(fields: [typeOfCardId], references: [id])
@@ -174,10 +174,25 @@ model Card {
   rarity   Rarity? @relation(fields: [rarityId], references: [id])
   rarityId String?
 
-
   cardImage CardImage[]
 
   // Indices
   // @@index([attribute])
   // @@index([type])
+}
+
+enum Role {
+  admin
+  user
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  password      String
+  image         String?
+
+  role Role @default(user)
 }

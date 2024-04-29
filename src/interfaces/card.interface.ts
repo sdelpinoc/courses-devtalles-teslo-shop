@@ -30,10 +30,10 @@ export interface Card {
   rarity: Rarities
   images: string[]
   inStock: number
+  slug: string
 }
 
 // Types of monsters(some examples, not all combinations):
-
 // Ritual:
 // DRAGON/RITUAL/EFFECT
 
@@ -101,3 +101,14 @@ export type SpellTypes = 'Continuous' | 'Equip' | 'Field' | 'Normal' | 'Quick-Pl
 export type TrapTypes = 'Continuous' | 'Counter' | 'Normal'
 
 export type Rarities = 'Normal' | 'Rare'
+
+export interface CartCard {
+  id: string
+  password: number
+  slug: string
+  name: string
+  quantity: number
+  price: number
+  rarity: Rarities
+  image: string
+}

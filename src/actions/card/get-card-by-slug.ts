@@ -1,6 +1,6 @@
 'use server'
 
-import { Rarities } from "@/interfaces/card.interface"
+import { Attributes, LinkArrows, MonsterAbilities, MonsterInvocations, MonsterPrimaryTypes, MonsterSecondaryTypes, Rarities, SpellTypes, TrapTypes, TypeOfCard, Types } from "@/interfaces/card.interface"
 import prisma from "@/lib/prisma"
 
 export const getCardBySlug = async (slug: string) => {
@@ -101,16 +101,16 @@ export const getCardBySlug = async (slug: string) => {
       pendulumScale: Number(card.pendulumScale),
       rarity: card.rarity?.name as Rarities,
       images: card.cardImage.map(image => image.name),
-      typeOfCard: card.typeOfCard.name,
-      attribute: card.attribute?.name,
-      type: card.type?.name,
-      monsterInvocation: card.monsterInvocation?.name,
-      monsterPrimaryTypes: card.monsterPrimaryTypesCard.map(monsterPrimaryType => monsterPrimaryType.monsterPrimaryType.name),
-      monsterSecondaryTypes: card.monsterSecondaryTypes?.name,
-      monsterAbility: card.monsterAbility?.name,
-      linkArrows: card.LinkArrowsCard.map(linkArrowsCard => linkArrowsCard.linkArrows.name),
-      spellType: card.spellType?.name,
-      trapType: card.trapType?.name
+      typeOfCard: card.typeOfCard.name.toUpperCase() as TypeOfCard,
+      attribute: card.attribute?.name as Attributes,
+      type: card.type?.name as Types,
+      monsterInvocation: card.monsterInvocation?.name.toUpperCase() as MonsterInvocations,
+      monsterPrimaryTypes: card.monsterPrimaryTypesCard.map(monsterPrimaryType => monsterPrimaryType.monsterPrimaryType.name.toUpperCase()) as MonsterPrimaryTypes[],
+      monsterSecondaryTypes: card.monsterSecondaryTypes?.name as MonsterSecondaryTypes,
+      monsterAbility: card.monsterAbility?.name as MonsterAbilities,
+      linkArrows: card.LinkArrowsCard.map(linkArrowsCard => linkArrowsCard.linkArrows.name) as LinkArrows[],
+      spellType: card.spellType?.name.toUpperCase() as SpellTypes,
+      trapType: card.trapType?.name.toUpperCase() as TrapTypes
     }
   } catch (error) {
     console.log(error)

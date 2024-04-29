@@ -37,4 +37,4 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## For production
 
-1.
+1. --

@@ -10,12 +10,10 @@ import lodash from "lodash"
 import { titleFont } from "@/config/fonts"
 // import { initialData } from "@/seed/seed-yugioh"
 
-import { RaritySelector } from "@/components/card/rarity-selector/RaritySelector"
-import { QuantitySelector } from "@/components/card/quantity-selector/QuantitySelector"
 import { SlideShow } from "@/components/card/slide-show/Slideshow"
 import { MobileSlideShow } from "@/components/card/slide-show/MobileSlideShow"
 import { getCardBySlug } from "@/actions/card/get-card-by-slug"
-import { StockLabel } from "@/components/card/stock-label/StockLabel"
+import { AddToCart } from "./ui/AddToCart"
 
 interface Props {
   params: {
@@ -61,64 +59,64 @@ export default async function CardPageWithSlug ({ params }: Props) {
   let bgCardColor = ''
   let bgCardColorBody = ''
   let borderCardColor = ''
-  if (card.typeOfCard === 'Monster') {
-    if (card.monsterInvocation === 'Link') {
+  if (card.typeOfCard === 'MONSTER') {
+    if (card.monsterInvocation === 'LINK') {
       bgCardColor = `bg-monster-link`
       bgCardColorBody = `bg-monster-link/40`
       borderCardColor = 'border-monster-link'
-    } else if (card.monsterInvocation === 'Synchro') {
+    } else if (card.monsterInvocation === 'SYNCHRO') {
       bgCardColor = `bg-monster-synchro`
       bgCardColorBody = `bg-monster-synchro/40`
       borderCardColor = 'border-monster-synchro'
-    } else if (card.monsterInvocation === 'Fusion') {
+    } else if (card.monsterInvocation === 'FUSION') {
       bgCardColor = `bg-monster-fusion`
       bgCardColorBody = `bg-monster-fusion/40`
       borderCardColor = `border-monster-fusion`
-      if (card.monsterPrimaryTypes?.includes('Pendulum')) {
+      if (card.monsterPrimaryTypes?.includes('PENDULUM')) {
         bgCardColor = `bg-gradient-to-b from-monster-fusion to-spell`
         bgCardColorBody = `bg-gradient-to-b from-monster-fusion/80 to-spell/40`
         borderCardColor = `border-monster-fusion`
       }
-    } else if (card.monsterInvocation === 'Ritual') {
+    } else if (card.monsterInvocation === 'RITUAL') {
       bgCardColor = `bg-monster-ritual`
       bgCardColorBody = `bg-monster-ritual/40`
       borderCardColor = `border-monster-ritual`
-    } else if (card.monsterInvocation === 'Xyz') {
+    } else if (card.monsterInvocation === 'XYZ') {
       bgCardColor = `bg-monster-xyz`
       bgCardColorBody = `bg-monster-xyz/40`
       borderCardColor = `border-monster-xyz`
-      if (card.monsterPrimaryTypes?.includes('Pendulum')) {
+      if (card.monsterPrimaryTypes?.includes('PENDULUM')) {
         bgCardColor = `bg-gradient-to-b from-monster-xyz to-spell`
         bgCardColorBody = `bg-gradient-to-b from-monster-xyz/50 to-spell/40`
         borderCardColor = `border-monster-xyz`
       }
-    } else if (card.monsterInvocation === 'Pendulum') {
+    } else if (card.monsterInvocation === 'PENDULUM') {
       // gradient-to-r from-monster-normal-bg to-monster-effect-bg
-      if (card.monsterPrimaryTypes?.includes('Effect')) {
+      if (card.monsterPrimaryTypes?.includes('EFFECT')) {
         bgCardColor = `bg-gradient-to-b from-monster-effect to-spell`
         bgCardColorBody = `bg-gradient-to-b from-monster-effect/80 to-spell/40`
         borderCardColor = `border-monster-effect`
-      } else if (card.monsterPrimaryTypes?.includes('Normal')) {
+      } else if (card.monsterPrimaryTypes?.includes('NORMAL')) {
         bgCardColor = `bg-gradient-to-b from-monster-normal to-spell`
         bgCardColorBody = `bg-gradient-to-b from-monster-normal/80 to-spell/40`
         borderCardColor = `border-monster-normal`
       }
     } else {
-      if (card.monsterPrimaryTypes?.includes('Effect')) {
+      if (card.monsterPrimaryTypes?.includes('EFFECT')) {
         bgCardColor = `bg-monster-effect`
         bgCardColorBody = `bg-monster-effect/40`
         borderCardColor = `border-monster-effect`
-      } else if (card.monsterPrimaryTypes?.includes('Normal')) {
+      } else if (card.monsterPrimaryTypes?.includes('NORMAL')) {
         bgCardColor = `bg-monster-normal`
         bgCardColorBody = `bg-monster-normal/40`
         borderCardColor = `border-monster-normal`
       }
     }
-  } else if (card.typeOfCard === 'Spell') {
+  } else if (card.typeOfCard === 'SPELL') {
     bgCardColor = `bg-spell`
     bgCardColorBody = `bg-spell/40`
     borderCardColor = `border-spell`
-  } else if (card.typeOfCard === 'Trap') {
+  } else if (card.typeOfCard === 'TRAP') {
     bgCardColor = `bg-trap`
     bgCardColorBody = `bg-trap/40`
     borderCardColor = `border-trap`
@@ -162,13 +160,13 @@ export default async function CardPageWithSlug ({ params }: Props) {
       <h1 className={
         clsx(`${titleFont.className} antialiased font-bold text-sm sm:text-xl text-center rounded py-2 sticky top-0 ${bgCardColor} opacity-90 z-10`,
           {
-            'text-white': card.monsterInvocation === 'Xyz'
+            'text-white': card.monsterInvocation === 'XYZ'
           }
         )}>
         {card.name}
       </h1>
       {/* Slideshow */}
-      <div className={clsx(`grid grid-cols-1 lg:grid-cols-3 mt-2 lg:gap-1`, {
+      <div className={clsx(`grid grid-cols-1 mt-2 gap-1 lg:grid-cols-3`, {
         "justify-items-center items-center": card.images.length === 0
       })}>
         <div className="col-span-1 lg:col-span-1">
@@ -195,7 +193,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
           {/* Mobile slideshow */}
         </div>
         {/* Details */}
-        <div className={`col-span-2 px-5 ${bgCardColorBody} rounded`}>
+        <div className={`col-span-2 px-5 ${bgCardColorBody} rounded w-full`}>
           {/* Card type */}
           {/* Select quantity */}
 
@@ -207,14 +205,14 @@ export default async function CardPageWithSlug ({ params }: Props) {
                 {lodash.capitalize(card.typeOfCard)}
               </span>
               {
-                card.typeOfCard === 'Spell' && (<Image className="inline ml-1 align-middle" src={`/img/Spell.svg`} alt={card.typeOfCard} width={28} height={28} />)
+                card.typeOfCard === 'SPELL' && (<Image className="inline ml-1 align-middle" src={`/img/Spell.svg`} alt={card.typeOfCard} width={28} height={28} />)
               }
               {
-                card.typeOfCard === 'Trap' && (<Image className="inline ml-1 align-middle" src={`/img/Trap.svg`} alt={card.typeOfCard} width={28} height={28} />)
+                card.typeOfCard === 'TRAP' && (<Image className="inline ml-1 align-middle" src={`/img/Trap.svg`} alt={card.typeOfCard} width={28} height={28} />)
               }
             </div>
             {
-              card.typeOfCard === 'Spell' &&
+              card.typeOfCard === 'SPELL' &&
               (
                 <div className="flex">
                   <p className="font-bold mr-1">Property:</p>
@@ -224,7 +222,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.typeOfCard === 'Trap' &&
+              card.typeOfCard === 'TRAP' &&
               (
                 <div className="flex">
                   <p className="font-bold mr-1">Property:</p>
@@ -234,7 +232,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.typeOfCard === 'Monster' && (
+              card.typeOfCard === 'MONSTER' && (
                 <div className="flex">
                   <p className="font-bold mr-1">Attribute:</p>
                   <span>{card.attribute}</span>
@@ -243,7 +241,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.typeOfCard === 'Monster' && (
+              card.typeOfCard === 'MONSTER' && (
                 <div className="flex">
                   {/* Types/MonsterInvocation?/MonsterAbility?/MonsterSecondaryType?/MonsterPrimaryType? */}
                   <p className="font-bold mr-1">Types:</p><span>{card.type} {card.monsterInvocation ? ` / ${lodash.capitalize(card.monsterInvocation)}` : ''}{card.monsterAbility ? ` / ${lodash.capitalize(card.monsterAbility)}` : ``}{card.monsterSecondaryTypes ? ` / ${lodash.capitalize(card.monsterSecondaryTypes)}` : ``} {card.monsterPrimaryTypes ? ` / ${lodash.capitalize(card.monsterPrimaryTypes.join(' / '))}` : ``}</span>
@@ -284,14 +282,14 @@ export default async function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.monsterPrimaryTypes?.includes('Pendulum') && (
+              card.monsterPrimaryTypes?.includes('PENDULUM') && (
                 <div className="flex">
                   <p className="font-bold mr-1">Pendulum scale:</p><Image className="inline align-middle mr-1" src={`/img/Pendulum_Scale.png`} alt="Pendulum Scale" width={20} height={20} /><span>{card.pendulumScale}</span>
                 </div>
               )
             }
             {
-              card.typeOfCard === 'Monster' && card.monsterInvocation === 'LINK' && (
+              card.typeOfCard === 'MONSTER' && card.monsterInvocation === 'LINK' && (
                 <div className="flex">
                   <p className="font-bold mr-1">Links Arrows:</p>
                   {
@@ -360,14 +358,14 @@ export default async function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.typeOfCard === 'Monster' && card.monsterInvocation !== 'LINK' && (
+              card.typeOfCard === 'MONSTER' && card.monsterInvocation !== 'LINK' && (
                 <div className="flex">
                   <p className="font-bold mr-1">ATK / DEF:</p><span>{card.attack_points} / {card.defense_points}</span>
                 </div>
               )
             }
             {
-              card.typeOfCard === 'Monster' && card.monsterInvocation === 'LINK' && (
+              card.typeOfCard === 'MONSTER' && card.monsterInvocation === 'LINK' && (
                 <div className="flex">
                   <p className="font-bold mr-1">ATK / LINK:</p><span>{card.attack_points} / {card.link}</span>
                 </div>
@@ -380,31 +378,25 @@ export default async function CardPageWithSlug ({ params }: Props) {
           {/* Description */}
           <h3 className="font-bold mt-2">Description:</h3>
           {
-            card.monsterPrimaryTypes?.includes('Pendulum')
+            card.monsterPrimaryTypes?.includes('PENDULUM')
               ? (
-                <p className={`bg-white p-2 border-2 ${borderCardColor} border rounded font-light`}>
+                <p className={`bg-white p-2 border-2 ${borderCardColor} border rounded`}>
                   <span className="font-semibold block">Pendulum Effect</span>
-                  {card.pendulumEffect}
+                  <pre className="whitespace-pre-wrap font-normal font-sans">{card.pendulumEffect}</pre>
                   <span className="font-semibold block mt-2">Card Effect</span>
-                  {card.cardText}
+                  <pre className="whitespace-pre-wrap font-normal font-sans">{card.cardText}</pre>
                 </p>
               ) : (
-                <p className={`bg-white p-2 border-2 ${borderCardColor} rounded font-light`}>
+                <pre className={`bg-white p-2 border-2 ${borderCardColor} rounded whitespace-pre-wrap font-normal font-sans`}>
                   {card.cardText}
-                </p>
+                </pre>
               )
           }
           <h3 className="font-bold mt-2">Price:</h3>
           <p className="text-lg mb-5">
             ${card.price}
           </p>
-          <StockLabel slug={card.slug} />
-          <RaritySelector availableRarities={['Normal', 'Rare']} selectedRarity={card.rarity} />
-          <QuantitySelector quantity={2} />
-          {/* Button */}
-          <button className="btn-primary my-5">
-            Add to cart
-          </button>
+          <AddToCart card={card} />
         </div>
       </div>
     </div>

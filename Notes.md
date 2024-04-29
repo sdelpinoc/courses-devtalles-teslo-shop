@@ -111,7 +111,6 @@ lodash.kebabCase(card.name)
 "seed": "ts-node .\\src\\seed\\seed-db.ts",
 ```
 
-
 ### Prisma
 
 - https://www.prisma.io/
@@ -129,9 +128,11 @@ lodash.kebabCase(card.name)
 - The schema is created and added to /prisma/schema.prisma
 
 - To generate a migration:
+
   - `npx prisma migrate dev --name CardTypeOfCard`
 
 - To generate a Prisma client
+
   - `npx prisma generate`
   - This generate a code, which we can copy to a file(/src/lib/prisma.ts) and export it
 
@@ -139,13 +140,55 @@ lodash.kebabCase(card.name)
 
 ### Ngrok
 
-  - For testing the app with a public url
-  - https://ngrok.com/
-  - Install the app for windows, then run:
-  - `ngrok config add-authtoken [authtoken]`
+- For testing the app with a public url
+- https://ngrok.com/
+- Install the app for windows, then run:
+- `ngrok config add-authtoken [authtoken]`
 
-  - Then use the Forwarding url
+- Then use the Forwarding url
 
 ### Opengraph
-  - https://opengraph.dev/
-  - https://www.opengraph.xyz/
+
+- https://opengraph.dev/
+- https://www.opengraph.xyz/
+
+### Next Auth
+
+- https://nextjs.org/learn/dashboard-app/adding-authentication
+- https://authjs.dev/reference/next-auth
+- `npm install next-auth`
+- `npm install next-auth@beta` -> Use this
+
+- Now you need to create a secret key, so run:
+- `openssl rand -base64 32` in your git bash terminal, also you can use: https://generate-secret.vercel.app/32
+- And add that to the environment variable AUTH_SECRET
+
+- Then you to create a auth.config.ts file in the src directory
+
+```
+import type { NextAuthConfig } from 'next-auth';
+
+export const authConfig: NextAuthConfig = {
+pages: {
+  signIn: '/auth/login',
+  newUser: '/auth/new-account'
+},
+providers: []
+}
+```
+
+### Zod
+
+- https://zod.dev/
+- `npm install zod`
+
+### bcryptjs
+
+- https://www.npmjs.com/package/bcryptjs
+- `npm install bcryptjs`
+- `npm i --save-dev @types/bcryptjs`
+
+### React Hook Form
+
+- https://react-hook-form.com/get-started
+- `npm install react-hook-form`
