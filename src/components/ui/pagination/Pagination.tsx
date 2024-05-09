@@ -45,6 +45,10 @@ export const Pagination = ({ totalPages }: Props) => {
     return `${pathname}?${params.toString()}`
   }
 
+  if (totalPages === 0) {
+    return
+  }
+
   return (
     <div className="flex justify-center mt-4 mb-10">
       <nav aria-label="Page navigation example">

@@ -380,12 +380,12 @@ export default async function CardPageWithSlug ({ params }: Props) {
           {
             card.monsterPrimaryTypes?.includes('PENDULUM')
               ? (
-                <p className={`bg-white p-2 border-2 ${borderCardColor} border rounded`}>
+                <div className={`bg-white p-2 border-2 ${borderCardColor} border rounded`}>
                   <span className="font-semibold block">Pendulum Effect</span>
                   <pre className="whitespace-pre-wrap font-normal font-sans">{card.pendulumEffect}</pre>
                   <span className="font-semibold block mt-2">Card Effect</span>
                   <pre className="whitespace-pre-wrap font-normal font-sans">{card.cardText}</pre>
-                </p>
+                </div>
               ) : (
                 <pre className={`bg-white p-2 border-2 ${borderCardColor} rounded whitespace-pre-wrap font-normal font-sans`}>
                   {card.cardText}

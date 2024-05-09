@@ -15,7 +15,7 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     return [1, 2, '...', totalPages - 2, totalPages - 1, totalPages]
   }
 
-  // if the current page, is in the middle, we show the first page, suspensive dots, current page and the next/previous ones
+  // if the current page, is in the middle, we show the first page, suspensive dots, current page and the next/previous ones, and finally the last one
   if (currentPage > 3 && currentPage < totalPages - 2) {
     return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages]
   }

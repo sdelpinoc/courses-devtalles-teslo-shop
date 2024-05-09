@@ -30,7 +30,7 @@ export const Sidebar = () => {
       {
         isMenuOpen && (
           <div
-            className="fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30"
+            className="fixed top-0 left-0 w-screen h-screen z-[110] bg-black opacity-30"
           />
         )
       }
@@ -39,13 +39,13 @@ export const Sidebar = () => {
         isMenuOpen && (
           <div
             onClick={closeMenu}
-            className="fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-sm"
+            className="fade-in fixed top-0 left-0 w-screen h-screen z-[110] backdrop-filter backdrop-blur-sm"
           />
         )
       }
       {/* Sidemenu */}
       <nav className={
-        clsx("fixed p-5 right-0 top-0 w-[400px] h-screen bg-white z-20 shadow-xl transform transition-all duration-300",
+        clsx("fixed p-5 right-0 top-0 w-[400px] h-screen bg-white z-[120] shadow-xl transform transition-all duration-300",
           {
             "translate-x-full": !isMenuOpen
           })
@@ -69,7 +69,7 @@ export const Sidebar = () => {
           isAuthenticated && (
             <>
               <SidebarLink text="Profile" href="/profile" icon={<IoPersonOutline size={30} />} onClickHandled={() => closeMenu()} />
-              <SidebarLink text="Orders" href="/" icon={<IoTicketOutline size={30} />} />
+              <SidebarLink text="Orders" href="/orders" icon={<IoTicketOutline size={30} />} onClickHandled={() => closeMenu()} />
               {
                 isAuthenticated && <SidebarLink text="Logout" href="/" icon={<IoLogOutOutline size={30} />} onClickHandled={onLogoutHandle} />
               }
@@ -85,7 +85,7 @@ export const Sidebar = () => {
               {/* Line separator */}
               <div className="w-full h-px bg-gray-200 my-10" />
               <SidebarLink text="Cards" href="/" icon={<IoIdCardOutline size={30} />} />
-              <SidebarLink text="Orders" href="/" icon={<IoTicketOutline size={30} />} />
+              <SidebarLink text="Orders" href="/orders" icon={<IoTicketOutline size={30} />} />
               <SidebarLink text="Users" href="/" icon={<IoPeopleOutline size={30} />} />
             </>
           )

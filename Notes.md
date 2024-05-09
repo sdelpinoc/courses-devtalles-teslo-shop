@@ -138,6 +138,12 @@ lodash.kebabCase(card.name)
 
   - Or also, we can use the following code for [Next.js](https://www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/nextjs-prisma-client-dev-practices)
 
+  - To visualize the data
+  - `npx prisma studio`
+
+  - Transactions
+  - https://www.prisma.io/docs/orm/prisma-client/queries/transactions#interactive-transactions
+
 ### Ngrok
 
 - For testing the app with a public url
@@ -192,3 +198,18 @@ providers: []
 
 - https://react-hook-form.com/get-started
 - `npm install react-hook-form`
+
+### Paypal
+
+  - https://developer.paypal.com/home/
+
+  - Go to App & Credentials, click in Create App, select merchant.
+  - Copy the Client ID and Secret Key 1 and copy them into the .env file
+  - In Testing Tools -> Sandbox Accounts, create a new Sandbox account, personal type.(Optional)
+
+  - We will use the account: 
+    - sb-zcupl30713415@personal.example.com
+
+### React - Paypal
+  - https://www.npmjs.com/package/@paypal/react-paypal-js
+  - `npm install @paypal/react-paypal-js`

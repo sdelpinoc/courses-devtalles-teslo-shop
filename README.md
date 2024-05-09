@@ -12,28 +12,35 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 2. Create a .env file, copying and creating a new environment variables from .env.template file
 
-3. Start the database
+3. Generate the AUTH_SECRET environment variable
+
+4. Start the database
 
 - `docker compose up -d`
 
-4. Run Prisma migrations
+5. For the connection in pgAdmin, use DB_USER and DB_PASSWORD when creating a server,
+   and in the host/address use the name of the service, in this case: postgres-db
+
+6. Run Prisma migrations
 
 - `npx prisma migrate dev`
 
-5. Execute seed
+7. Execute seed
 
 - `npm run seed` or `npm run seed-unix`
 
-6. Run the development server:
+8. Delete localStorage from browser
+
+9. Run the development server:
 
    - `npm run dev`
    - Go to http://localhost:3000/
 
-7. For the database administrator:
+10. For the database administrator:
    - pgAdmin credencial:
      - Url: http://localhost:8080
-     - User: user@domain.com
-     - Password: 123456
+     - User: ${PGADMIN_DEFAULT_EMAIL}
+     - Password: ${PGADMIN_DEFAULT_PASSWORD}
 
 ## For production
 

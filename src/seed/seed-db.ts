@@ -1,4 +1,5 @@
 import prisma from '../lib/prisma'
+import { countries } from './seed-countries'
 
 import { Attributes, LinkArrows, MonsterAbilities, MonsterInvocations, MonsterPrimaryTypes, MonsterSecondaryTypes, Rarities, SpellTypes, TrapTypes, Types, TypesOfCard, initialData } from "./seed-yugioh"
 import lodash from "lodash"
@@ -13,6 +14,8 @@ async function main () {
   await prisma.linkArrowsCard.deleteMany()
   await prisma.cardImage.deleteMany()
 
+  await prisma.orderItem.deleteMany()
+
   await prisma.card.deleteMany()
   await prisma.typeOfCard.deleteMany()
   await prisma.attribute.deleteMany()
@@ -26,7 +29,14 @@ async function main () {
   await prisma.trapType.deleteMany()
   await prisma.rarity.deleteMany()
 
+  // Orders
+  await prisma.orderAddress.deleteMany()
+  await prisma.order.deleteMany()
+
+  // Address user/user
+  await prisma.userAddress.deleteMany()
   await prisma.user.deleteMany()
+  await prisma.country.deleteMany()
 
   // ])
   console.log('Rows deleted...')
@@ -53,7 +63,7 @@ async function main () {
   // Cards to insert
   cards.forEach(async card => {
     const { typeOfCard, attribute, type, images, monsterInvocation, monsterPrimaryTypes, monsterSecondaryTypes, monsterAbility, linkArrows, spellType, trapType, rarity, ...cardToInsert } = card
-    console.log({ cardToInsert })
+    // console.log({ cardToInsert })
 
     const cardDB = await prisma.card.create({
       data: {
@@ -112,7 +122,14 @@ async function main () {
   await prisma.user.createMany({
     data: users
   })
+  console.log('Users added..')
 
+  await prisma.country.createMany({
+    data: countries
+  })
+  console.log('Countries added...')
+
+  console.log('***')
   console.log('Seed execute...')
 }
 

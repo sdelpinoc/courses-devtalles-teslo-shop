@@ -14,7 +14,7 @@ interface PaginationOptions {
 
 export const getPaginatedCardsWithImages = async ({
   page = 1,
-  take = 1, // TODO: change to 4
+  take = 4, // TODO: change to 4
   typeOfCard
 }: PaginationOptions) => {
   if (isNaN(Number(page))) page = 1

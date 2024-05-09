@@ -21,7 +21,7 @@ export const AddToCart = ({ card }: Props) => {
 
   const addToCart = () => {
     setPosted(true)
-    console.log({ rarity, quantity, card })
+    // console.log({ rarity, quantity, card })
     // TODO: addToCart
     if (!rarity) return
 

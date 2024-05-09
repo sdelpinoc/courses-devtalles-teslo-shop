@@ -1,16 +1,13 @@
-import { QuantitySelector } from "@/components/card/quantity-selector/QuantitySelector";
-import { Title } from "@/components/ui/title/Title";
-import { initialData } from "@/seed/seed-yugioh";
-import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
+
+import clsx from "clsx";
 import { IoCartOutline } from "react-icons/io5";
 
-const cardsInCart = [
-  initialData.cards[0],
-  initialData.cards[1],
-  initialData.cards[2],
-]
+import { getOrderById } from "@/actions/order/get-order-by-id";
+import { Title } from "@/components/ui/title/Title";
+import { currencyFormat } from "@/utils/currencyFormat";
+import { PayPalButton } from "@/components/paypal/PayPalButton";
+import { OrderStatus } from "@/components/orders/OrderStatus";
 
 interface Props {
   params: {
@@ -18,90 +15,88 @@ interface Props {
   }
 }
 
-export default function OrderByIdPage ({ params }: Props) {
+export default async function OrderByIdPage ({ params }: Props) {
   const { id } = params
 
-  // Verify id, redirect 
+  // Server action
+  const { ok, message, order } = await getOrderById(id)
 
+  const { firstName, lastName, address, address2, city, postalCode, phone, countryId } = { ...order?.OrderAddress }
+
+  if (!ok || !order) {
+    return <p>{message}</p>
+  }
 
   return (
     <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
       <div className="flex flex-col w-[1000px]">
-        <Title title={`Order #${id}`} />
+        <Title title={`Order #${id.split('-').at(-1)}`} />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
           {/* Cart */}
-          <div className="flex flex-col mt-5">
-            <div className={
+          <div className="flex flex-col">
+            {/* <div className={
               clsx(
                 "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
                 {
-                  'bg-red-500': false,
-                  'bg-green-700': true,
+                  'bg-red-500': !order.isPaid,
+                  'bg-green-700': order.isPaid,
                 }
               )
             }>
               <IoCartOutline size={30} />
-              {/* <span className="mx-2">Pending...</span> */}
-              <span className="mx-2">Paid</span>
-            </div>
+              {
+                (order.isPaid)
+                  ? <span className="mx-2">Paid</span>
+                  : <span className="mx-2">Pending...</span>
+              }
+            </div> */}
             {/* Items */}
             {
-              cardsInCart.map(card => (
-                <div key={card.password} className="flex gap-2 mb-5">
-                  <Image src={`/img/cards/${card.password}.jpg`} alt={card.name} width={100} height={50} className="mr-5 rounded" />
+              order?.OrderItem.map(item => (
+                <div key={item.card.password + '-' + item.rarity} className="flex gap-2 mb-5">
+                  <Image src={`/img/cards/${item.card.password}.jpg`} alt={item.card.name} width={100} height={50} className="mr-5 rounded" />
                   <div>
-                    <p>{card.name}</p>
-                    <p>${card.price} x 3</p>
-                    {/* <QuantitySelector quantity={3} /> */}
-                    <p className="font-bold">Subtotal: ${card.price * 3}</p>
-                    <button className="underline mt-3">Remove</button>
+                    <p>{item.card.name}</p>
+                    <span className="text-xs block">Rarity: {item.rarity}</span>
+                    <p>${item.price} x {item.quantity}</p>
+                    <p className="font-bold">Subtotal: {currencyFormat(item.price * item.quantity)}</p>
                   </div>
                 </div>
               ))
             }
           </div>
           {/* Summary/Checkout */}
-          <div className="bg-white rounded-xl shadow-xl p-7">
+          <div className="bg-white rounded-xl shadow-xl p-7 self-start">
             <h2 className="text-2xl font-bold mb-2">Delivery address</h2>
             <div className="mb-10">
-              <p className="text-xl">Sergio del Pino C.</p>
-              <p>Pedro Lagos 44</p>
-              <p>San Carlos</p>
-              <p>Región de Ñuble</p>
-              <p>Chile</p>
-              <p>CP 33445566</p>
-              <p>Phone number: 987654321</p>
+              <p className="text-xl">{firstName} {lastName}</p>
+              <p>{address} {address2}</p>
+              <p>{city}, {countryId}</p>
+              <p>CP {postalCode}</p>
+              <p>Phone: {phone}</p>
             </div>
             {/* Divider */}
             <div className="w-full h-0.5 rounded border-t border-t-gray-200 mb-10" />
             <h2 className="text-2xl mb-2">Resume</h2>
             <div className="grid grid-cols-2">
               <span>Product qty.</span>
-              <span className="text-right">9 cards</span>
+              <span className="text-right">{order.itemsInOrder} {order.itemsInOrder > 1 ? 'cards' : 'card'}</span>
 
               <span>Subtotal.</span>
-              <span className="text-right">$ 100</span>
+              <span className="text-right">{currencyFormat(order.subTotal)}</span>
 
               <span>Taxes(15%)</span>
-              <span className="text-right">$ 15</span>
+              <span className="text-right">{currencyFormat(order.tax)}</span>
 
               <span className="text-2xl mt-5">Total:</span>
-              <span className="text-right text-2xl mt-5">$ 115</span>
+              <span className="text-right text-2xl mt-5">{currencyFormat(order.total)}</span>
             </div>
-            <div className="mt-5 mb-2 w-full">
-              <div className={
-                clsx(
-                  "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-                  {
-                    'bg-red-500': false,
-                    'bg-green-700': true,
-                  }
-                )
-              }>
-                <IoCartOutline size={30} />
-                {/* <span className="mx-2">Pending...</span> */}
-                <span className="mx-2">Paid</span>
-              </div>
+            <div className="mt-10 mb-2 w-full">
+              {
+                order.isPaid
+                  ? <OrderStatus isPaid={order.isPaid} />
+                  : <PayPalButton amount={order.total} orderId={order.id} />
+              }
             </div>
           </div>
         </div>
