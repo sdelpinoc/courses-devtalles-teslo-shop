@@ -1,13 +1,13 @@
+import { redirect } from "next/navigation";
 import Image from "next/image";
-
-import clsx from "clsx";
-import { IoCartOutline } from "react-icons/io5";
 
 import { getOrderById } from "@/actions/order/get-order-by-id";
 import { Title } from "@/components/ui/title/Title";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { PayPalButton } from "@/components/paypal/PayPalButton";
 import { OrderStatus } from "@/components/orders/OrderStatus";
+import { auth } from "@/auth.config";
+import { CardImage } from "@/components/card/card-image/CardImage";
 
 interface Props {
   params: {
@@ -17,6 +17,12 @@ interface Props {
 
 export default async function OrderByIdPage ({ params }: Props) {
   const { id } = params
+  const session = await auth()
+
+  if (!session?.user) {
+    // redirect('/auth/login?returnTo=/perfil')
+    redirect('/auth/login')
+  }
 
   // Server action
   const { ok, message, order } = await getOrderById(id)
@@ -54,7 +60,7 @@ export default async function OrderByIdPage ({ params }: Props) {
             {
               order?.OrderItem.map(item => (
                 <div key={item.card.password + '-' + item.rarity} className="flex gap-2 mb-5">
-                  <Image src={`/img/cards/${item.card.password}.jpg`} alt={item.card.name} width={100} height={50} className="mr-5 rounded" />
+                  <CardImage src={`${item.card.password}.jpg`} alt={item.card.name} width={100} height={50} className="mr-5 rounded" />
                   <div>
                     <p>{item.card.name}</p>
                     <span className="text-xs block">Rarity: {item.rarity}</span>

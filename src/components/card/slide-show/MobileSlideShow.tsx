@@ -11,6 +11,7 @@ import 'swiper/css/pagination';
 
 import './slideshow.css';
 import { Autoplay, FreeMode, Pagination } from "swiper/modules";
+import { CardImage } from "../card-image/CardImage";
 
 interface Props {
   images: string[]
@@ -33,8 +34,8 @@ export const MobileSlideShow = ({ images, title, className }: Props) => {
         {
           images.map(image => (
             <SwiperSlide key={image}>
-              <Image
-                src={`/img/cards/${image}`}
+              <CardImage
+                src={image}
                 alt={title}
                 width={300}
                 height={0}

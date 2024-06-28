@@ -15,6 +15,7 @@ import 'swiper/css/thumbs';
 
 import './slideshow.css';
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { CardImage } from "../card-image/CardImage";
 
 interface Props {
   images: string[]
@@ -46,8 +47,8 @@ export const SlideShow = ({ images, title, className }: Props) => {
         {
           images.map(image => (
             <SwiperSlide key={image}>
-              <Image
-                src={`/img/cards/${image}`}
+              <CardImage
+                src={image}
                 alt={title}
                 width={300}
                 height={0}
@@ -70,7 +71,7 @@ export const SlideShow = ({ images, title, className }: Props) => {
         {
           images.map(image => (
             <SwiperSlide key={`${image}_thumb`}>
-              <Image src={`/img/cards/${image}`} alt={title} width={100} height={100} />
+              <CardImage src={image} alt={title} width={100} height={100} />
             </SwiperSlide>
           ))
         }

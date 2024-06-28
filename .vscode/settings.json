@@ -2,6 +2,7 @@
   "cSpell.ignoreWords": [
     "Bunbuku",
     "CLSX",
+    "Cloudinary",
     "Couverture",
     "Cyberse",
     "Cybertruck",
@@ -28,6 +29,7 @@
     "Ygoprodeck",
     "Yugipedia",
     "Zustand",
+    "cloudinary",
     "clsx",
     "codepaths",
     "datasource",
@@ -51,5 +53,6 @@
     "postresql",
     "Pyro",
     "Spellcaster"
-  ]
+  ],
+  "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }

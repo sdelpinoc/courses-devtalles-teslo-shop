@@ -13,6 +13,7 @@ interface Props {
 }
 
 export const AddToCart = ({ card }: Props) => {
+  // console.log({ card })
   const addCardToCart = useCartStore(state => state.addProductoToCart)
 
   const [rarity, setRarity] = useState<Rarities | undefined>()
@@ -22,7 +23,6 @@ export const AddToCart = ({ card }: Props) => {
   const addToCart = () => {
     setPosted(true)
     // console.log({ rarity, quantity, card })
-    // TODO: addToCart
     if (!rarity) return
 
     const cartCard: CartCard = {
@@ -53,7 +53,7 @@ export const AddToCart = ({ card }: Props) => {
           </span>
         )
       }
-      <RaritySelector availableRarities={['Normal', 'Rare']} selectedRarity={rarity} onRarityChanged={setRarity} />
+      <RaritySelector availableRarities={card.rarities.map(rarity => rarity)} selectedRarity={rarity} onRarityChanged={setRarity} />
       <QuantitySelector quantity={quantity} onQuantityChanged={setQuantity} />
       <button className="btn-primary my-5" onClick={addToCart}>
         Add to cart

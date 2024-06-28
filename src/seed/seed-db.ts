@@ -1,8 +1,9 @@
 import prisma from '../lib/prisma'
+import lodash from "lodash"
+
 import { countries } from './seed-countries'
 
 import { Attributes, LinkArrows, MonsterAbilities, MonsterInvocations, MonsterPrimaryTypes, MonsterSecondaryTypes, Rarities, SpellTypes, TrapTypes, Types, TypesOfCard, initialData } from "./seed-yugioh"
-import lodash from "lodash"
 
 async function main () {
   // console.log(process.env.NODE_ENV)
@@ -13,6 +14,7 @@ async function main () {
   await prisma.monsterPrimaryTypesCard.deleteMany()
   await prisma.linkArrowsCard.deleteMany()
   await prisma.cardImage.deleteMany()
+  await prisma.rarityCard.deleteMany()
 
   await prisma.orderItem.deleteMany()
 
@@ -58,11 +60,12 @@ async function main () {
   const linkArrowsMap = await linkArrowsInsert(linkArrows)
   const spellTypeMap = await spellTypeInsert(spellTypes)
   const trapTypeMap = await trapTypeInsert(trapTypes)
-  const rarityMap = await rarityInsert(rarities)
+  // const rarityMap = await rarityInsert(rarities)
+  const raritiesMap = await raritiesInsert(rarities)
 
   // Cards to insert
   cards.forEach(async card => {
-    const { typeOfCard, attribute, type, images, monsterInvocation, monsterPrimaryTypes, monsterSecondaryTypes, monsterAbility, linkArrows, spellType, trapType, rarity, ...cardToInsert } = card
+    const { typeOfCard, attribute, type, images, monsterInvocation, monsterPrimaryTypes, monsterSecondaryType, monsterAbility, linkArrows, spellType, trapType, rarities, ...cardToInsert } = card
     // console.log({ cardToInsert })
 
     const cardDB = await prisma.card.create({
@@ -72,11 +75,10 @@ async function main () {
         attributeId: attributesMap[card.attribute?.toLowerCase()!],
         typeId: typesMap[card.type?.toLowerCase()!],
         monsterInvocationId: monsterInvocationMap[card.monsterInvocation?.toLowerCase()!],
-        monsterSecondaryTypesId: monsterSecondaryTypeMap[card.monsterSecondaryTypes?.toLowerCase()!],
+        monsterSecondaryTypesId: monsterSecondaryTypeMap[card.monsterSecondaryType?.toLowerCase()!],
         monsterAbilityId: monsterAbilityMap[card.monsterAbility?.toLowerCase()!],
         spellTypeId: spellTypeMap[card.spellType?.toLowerCase()!],
         trapTypeId: trapTypeMap[card.trapType?.toLowerCase()!],
-        rarityId: rarityMap[card.rarity.toLowerCase()],
         slug: lodash.kebabCase(card.name)
       }
     })
@@ -114,6 +116,18 @@ async function main () {
 
       await prisma.linkArrowsCard.createMany({
         data: linkArrowsData
+      })
+    }
+
+    // Rarities to insert
+    if (rarities) {
+      const raritiesData = rarities.map(rarity => ({
+        rarityId: raritiesMap[rarity.toLowerCase()],
+        cardId: cardDB.id
+      }))
+
+      await prisma.rarityCard.createMany({
+        data: raritiesData
       })
     }
   })
@@ -286,7 +300,8 @@ async function monsterAbilityInsert (monsterAbilities: MonsterAbilities[]) {
 
 async function linkArrowsInsert (linkArrows: LinkArrows[]) {
   const linkArrowsData = linkArrows.map(linkArrow => ({
-    name: lodash.capitalize(linkArrow)
+    // name: lodash.capitalize(linkArrow)
+    name: linkArrow
   }))
 
   await prisma.linkArrows.createMany({
@@ -347,25 +362,46 @@ async function trapTypeInsert (trapTypes: TrapTypes[]) {
   return trapTypeMap
 }
 
-async function rarityInsert (rarities: Rarities[]) {
-  const rarityData = rarities.map(rarity => ({
+// async function rarityInsert (rarities: Rarities[]) {
+//   const rarityData = rarities.map(rarity => ({
+//     name: lodash.capitalize(rarity)
+//   }))
+
+//   await prisma.rarity.createMany({
+//     data: rarityData
+//   })
+//   console.log('rarity added...')
+
+//   const rarityDB = await prisma.rarity.findMany()
+
+//   const rarityMap = rarityDB.reduce((array, rarity) => {
+//     array[rarity.name.toLowerCase()] = rarity.id
+//     return array
+//   }, {} as Record<string, string>)
+//   // console.log({ rarityMap })
+
+//   return rarityMap
+// }
+
+async function raritiesInsert (rarities: Rarities[]) {
+  const raritiesData = rarities.map(rarity => ({
     name: lodash.capitalize(rarity)
   }))
 
   await prisma.rarity.createMany({
-    data: rarityData
+    data: raritiesData
   })
-  console.log('rarity added...')
+  console.log('Rarities added...')
 
-  const rarityDB = await prisma.rarity.findMany()
+  const raritiesDB = await prisma.rarity.findMany()
 
-  const rarityMap = rarityDB.reduce((array, rarity) => {
+  const raritiesMap = raritiesDB.reduce((array, rarity) => {
     array[rarity.name.toLowerCase()] = rarity.id
     return array
   }, {} as Record<string, string>)
-  // console.log({ rarityMap })
+  // console.log({ monsterInvocationsMap })
 
-  return rarityMap
+  return raritiesMap
 }
 
 (() => {

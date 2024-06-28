@@ -1,11 +1,12 @@
-// https://tailwindcomponents.com/component/hoverable-table
-import Link from 'next/link';
+import Link from "next/link"
+import { redirect } from "next/navigation"
 
-import { IoCardOutline } from 'react-icons/io5';
-import { Title } from '@/components/ui/title/Title';
-// import { getOrderByUser } from '@/actions/order/get-order-by-user';
-import { getPaginationOrders } from '@/actions/order/get-pagination-orders';
-import { Pagination } from '@/components/ui/pagination/Pagination';
+import { IoCardOutline } from "react-icons/io5"
+
+import { auth } from "@/auth.config"
+import { getPaginationOrders } from "@/actions/order/get-pagination-orders"
+import { Pagination } from "@/components/ui/pagination/Pagination"
+import { Title } from "@/components/ui/title/Title"
 
 interface Props {
   searchParams: {
@@ -13,12 +14,16 @@ interface Props {
   }
 }
 
-export default async function OrdersListPage ({ searchParams }: Props) {
+export default async function OrdersPage ({ searchParams }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1
 
-  // const { ok, message, orders = [] } = await getOrderByUser()
-  const { ok, message, orders = [], totalPages = 1 } = await getPaginationOrders({ page, take: 2 })
-  // console.log({ orders, totalPages })
+  const session = await auth()
+
+  if (!session?.user) {
+    redirect('/auth/login')
+  }
+
+  const { ok, message, orders = [], totalPages = 1 } = await getPaginationOrders({ page, take: 2, isAdmin: session?.user.role === 'admin'})
 
   if (!ok) {
     return <p>{message}</p>
@@ -26,7 +31,7 @@ export default async function OrdersListPage ({ searchParams }: Props) {
 
   return (
     <>
-      <Title title="Orders" />
+      <Title title="All Orders" />
       <div className="mb-10">
         <table className="min-w-full">
           <thead className="bg-gray-200 border-b">
@@ -35,13 +40,13 @@ export default async function OrdersListPage ({ searchParams }: Props) {
                 #ID
               </th>
               <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Nombre completo
+                Name
               </th>
               <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Estado
+                Status
               </th>
               <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Opciones
+                Options
               </th>
             </tr>
           </thead>
@@ -75,5 +80,5 @@ export default async function OrdersListPage ({ searchParams }: Props) {
       </div>
       <Pagination totalPages={totalPages} />
     </>
-  );
+  )
 }

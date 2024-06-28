@@ -1,7 +1,7 @@
 'use server'
 
-import { Rarities, TypeOfCard } from "@/interfaces/card.interface"
 import prisma from "@/lib/prisma"
+import { Rarities, TypeOfCard } from "@/interfaces/card.interface"
 
 // import { TypeOfCard } from '@prisma/client'
 // type TypeOfCardBD = TypeOfCard | null
@@ -14,7 +14,7 @@ interface PaginationOptions {
 
 export const getPaginatedCardsWithImages = async ({
   page = 1,
-  take = 4, // TODO: change to 4
+  take = 4,
   typeOfCard
 }: PaginationOptions) => {
   if (isNaN(Number(page))) page = 1
@@ -53,9 +53,13 @@ export const getPaginatedCardsWithImages = async ({
             name: true
           }
         },
-        rarity: {
-          select: {
-            name: true
+        RarityCard: {
+          include: {
+            rarity: {
+              select: {
+                name: true
+              }
+            }
           }
         }
       },
@@ -87,7 +91,7 @@ export const getPaginatedCardsWithImages = async ({
         defense_points: card.defense_points ?? '',
         pendulumEffect: card.pendulumEffect ?? '',
         pendulumScale: Number(card.pendulumScale),
-        rarity: card.rarity?.name as Rarities,
+        rarities: card.RarityCard.map(rarityCard => rarityCard.rarity.name) as Rarities[],
         images: card.cardImage.map(image => image.name),
         typeOfCard: card.typeOfCard.name as TypeOfCard
       }))

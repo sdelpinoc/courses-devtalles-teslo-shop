@@ -11,12 +11,17 @@ export const getCardBySlug = async (slug: string) => {
         cardImage: {
           // take: 3,
           select: {
+            id: true,
             name: true
           }
         },
-        rarity: {
-          select: {
-            name: true
+        RarityCard: {
+          include: {
+            rarity: {
+              select: {
+                name: true
+              }
+            }
           }
         },
         typeOfCard: {
@@ -99,7 +104,8 @@ export const getCardBySlug = async (slug: string) => {
       defense_points: card.defense_points ?? '',
       pendulumEffect: card.pendulumEffect ?? '',
       pendulumScale: Number(card.pendulumScale),
-      rarity: card.rarity?.name as Rarities,
+      // rarity: card.rarity?.name as Rarities,
+      rarities: card.RarityCard.map(rarity => rarity.rarity.name) as Rarities[],
       images: card.cardImage.map(image => image.name),
       typeOfCard: card.typeOfCard.name.toUpperCase() as TypeOfCard,
       attribute: card.attribute?.name as Attributes,

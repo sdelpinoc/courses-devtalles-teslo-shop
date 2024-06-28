@@ -213,3 +213,10 @@ providers: []
 ### React - Paypal
   - https://www.npmjs.com/package/@paypal/react-paypal-js
   - `npm install @paypal/react-paypal-js`
+
+### Cloudinary
+
+  - https://cloudinary.com/
+  - `npm install cloudinary`
+
+  - Also you need to add the hostname to next.config.js file

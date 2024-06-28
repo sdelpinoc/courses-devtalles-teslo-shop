@@ -14,6 +14,7 @@ import { SlideShow } from "@/components/card/slide-show/Slideshow"
 import { MobileSlideShow } from "@/components/card/slide-show/MobileSlideShow"
 import { getCardBySlug } from "@/actions/card/get-card-by-slug"
 import { AddToCart } from "./ui/AddToCart"
+import { CardImage } from "@/components/card/card-image/CardImage"
 
 interface Props {
   params: {
@@ -46,15 +47,15 @@ export default async function CardPageWithSlug ({ params }: Props) {
 
   // const card = initialData.cards.find(card => lodash.kebabCase(card.name) === slug)
   const card = await getCardBySlug(slug)
-  // console.log({ card })
+  console.log({ card })
   // console.log({ 'card.monsterPrimaryTypes': card?.monsterPrimaryTypes })
 
   if (!card) {
     notFound()
   }
 
-  const cardLevel = Number(card.level)
-  const cardRank = Number(card.rank)
+  const cardLevel = Number(card.level ?? 0)
+  const cardRank = Number(card.rank ?? 0)
 
   let bgCardColor = ''
   let bgCardColorBody = ''
@@ -167,28 +168,28 @@ export default async function CardPageWithSlug ({ params }: Props) {
       </h1>
       {/* Slideshow */}
       <div className={clsx(`grid grid-cols-1 mt-2 gap-1 lg:grid-cols-3`, {
-        "justify-items-center items-center": card.images.length === 0
+        "justify-items-center items-center": card.images.length === 1
       })}>
         <div className="col-span-1 lg:col-span-1">
           {
-            card.images.length > 0
+            card.images.length > 1
               ? (
                 <>
                   {/* Mobile Slideshow */}
                   <MobileSlideShow
                     title={card.name}
-                    images={[`${card.password}.jpg`].concat(card.images)}
+                    images={card.images}
                     className="block md:hidden"
                   />
                   {/* Desktop slideshow */}
                   <SlideShow
                     title={card.name}
-                    images={[`${card.password}.jpg`].concat(card.images)}
+                    images={card.images}
                     className="hidden md:block"
                   />
                 </>
               )
-              : <Image src={`/img/cards/${card.password}.jpg`} alt={card.name} width={300} height={'437'} />
+              : <CardImage src={`${card.images[0]}`} alt={card.name} width={300} height={437} />
           }
           {/* Mobile slideshow */}
         </div>
@@ -244,13 +245,15 @@ export default async function CardPageWithSlug ({ params }: Props) {
               card.typeOfCard === 'MONSTER' && (
                 <div className="flex">
                   {/* Types/MonsterInvocation?/MonsterAbility?/MonsterSecondaryType?/MonsterPrimaryType? */}
-                  <p className="font-bold mr-1">Types:</p><span>{card.type} {card.monsterInvocation ? ` / ${lodash.capitalize(card.monsterInvocation)}` : ''}{card.monsterAbility ? ` / ${lodash.capitalize(card.monsterAbility)}` : ``}{card.monsterSecondaryTypes ? ` / ${lodash.capitalize(card.monsterSecondaryTypes)}` : ``} {card.monsterPrimaryTypes ? ` / ${lodash.capitalize(card.monsterPrimaryTypes.join(' / '))}` : ``}</span>
+                  <p className="font-bold mr-1">Types:</p>
+                  <span>
+                    {card.type} {card.monsterInvocation ? ` / ${lodash.capitalize(card.monsterInvocation)}` : ''}{card.monsterAbility ? ` / ${lodash.capitalize(card.monsterAbility)}` : ``}{card.monsterSecondaryTypes ? ` / ${lodash.capitalize(card.monsterSecondaryTypes)}` : ``} {card.monsterPrimaryTypes ? ` / ${card.monsterPrimaryTypes.map(lodash.capitalize).join(' / ')}` : ``}</span>
                 </div>
 
               )
             }
             {
-              card.level && (
+              (card.typeOfCard === 'MONSTER') && (card.monsterInvocation !== 'LINK' && card.monsterInvocation !== 'XYZ') && (
                 <div className="flex">
                   <p className="font-bold mr-1">Level:</p>
                   <span>
@@ -267,7 +270,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.rank && (
+              card.monsterInvocation === 'XYZ' && (
                 <div className="flex">
                   <p className="font-bold mr-1">Rank:</p>
                   <span>
@@ -282,7 +285,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
               )
             }
             {
-              card.monsterPrimaryTypes?.includes('PENDULUM') && (
+              card.monsterInvocation === 'PENDULUM' && (
                 <div className="flex">
                   <p className="font-bold mr-1">Pendulum scale:</p><Image className="inline align-middle mr-1" src={`/img/Pendulum_Scale.png`} alt="Pendulum Scale" width={20} height={20} /><span>{card.pendulumScale}</span>
                 </div>

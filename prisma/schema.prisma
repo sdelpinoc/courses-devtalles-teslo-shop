@@ -109,10 +109,21 @@ model TrapType {
 }
 
 model Rarity {
-  id   String @id @default(uuid())
-  name String @unique
+  id         String       @id @default(uuid())
+  name       String       @unique
+  RarityCard RarityCard[]
+}
 
-  card Card[]
+model RarityCard {
+  id String @id @default(uuid())
+
+  // This generate a relation with Rarity model
+  rarity   Rarity @relation(fields: [rarityId], references: [id])
+  rarityId String
+
+  // This generate a relation with Card model
+  card   Card   @relation(fields: [cardId], references: [id])
+  cardId String
 }
 
 model CardImage {
@@ -171,15 +182,13 @@ model Card {
   trapType   TrapType? @relation(fields: [trapTypeId], references: [id])
   trapTypeId String?
 
-  rarity   Rarity? @relation(fields: [rarityId], references: [id])
-  rarityId String?
-
   cardImage CardImage[]
   OrderItem OrderItem[]
 
   // Indices
   // @@index([attribute])
   // @@index([type])
+  RarityCard RarityCard[]
 }
 
 enum Role {

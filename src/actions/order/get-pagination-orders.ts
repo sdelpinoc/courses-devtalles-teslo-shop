@@ -2,14 +2,14 @@
 
 import { auth } from "@/auth.config"
 import prisma from "@/lib/prisma"
-import { ceil } from "lodash"
 
 interface PaginationOptions {
   page?: number
-  take?: number
+  take?: number,
+  isAdmin?: boolean
 }
 
-export const getOrderPagination = async ({ page = 1, take = 2 }: PaginationOptions) => {
+export const getPaginationOrders = async ({ page = 1, take = 2, isAdmin = false }: PaginationOptions) => {
   const session = await auth()
 
   if (!session?.user) {
@@ -29,7 +29,7 @@ export const getOrderPagination = async ({ page = 1, take = 2 }: PaginationOptio
       }
     },
     where: {
-      userId: session.user.id
+      userId: isAdmin ? undefined : session.user.id
     },
     take: take,
     skip: (page - 1) * take,

@@ -10,7 +10,7 @@ interface SeedCard {
   type?: Types
   monsterInvocation?: MonsterInvocations
   monsterPrimaryTypes?: MonsterPrimaryTypes[]
-  monsterSecondaryTypes?: MonsterSecondaryTypes
+  monsterSecondaryType?: MonsterSecondaryTypes
   monsterAbility?: MonsterAbilities
   level?: number
   rank?: number
@@ -29,7 +29,7 @@ interface SeedCard {
 
   // Extra fields, only for this course
   price: number
-  rarity: Rarities
+  rarities: Rarities[]
   images: string[]
 }
 
@@ -135,8 +135,8 @@ export const initialData: SeedData = {
 
       // TrapType: ''
       price: 51,
-      rarity: 'Normal',
-      images: ['92729410_1.jpg', '92729410_2.jpg']
+      rarities: ['Normal'],
+      images: ['92729410.jpg', '92729410_1.jpg', '92729410_2.jpg']
     },
     {
       typeOfCard: 'MONSTER',
@@ -151,8 +151,8 @@ export const initialData: SeedData = {
       attack_points: '700',
       defense_points: '900',
       price: 67,
-      rarity: 'Normal',
-      images: []
+      rarities: ['Normal'],
+      images: ['17441953.jpg']
     },
     {
       typeOfCard: 'MONSTER',
@@ -168,8 +168,8 @@ export const initialData: SeedData = {
       attack_points: '1500',
       linkArrows: ['Bottom-Left', 'Bottom-Right'],
       price: 82,
-      rarity: 'Normal',
-      images: []
+      rarities: ['Normal'],
+      images: ['66384688.jpg']
     },
     {
       typeOfCard: 'MONSTER',
@@ -181,13 +181,13 @@ export const initialData: SeedData = {
       type: 'Spellcaster',
       monsterInvocation: 'SYNCHRO',
       monsterPrimaryTypes: ['EFFECT'],
-      monsterSecondaryTypes: 'TUNER',
+      monsterSecondaryType: 'TUNER',
       level: 5,
       attack_points: '1900',
       defense_points: '[0, 1, 2, 3]',
       price: 5,
-      rarity: 'Normal',
-      images: ['98558751_1.jpg', '98558751_2.jpg', '98558751_3.jpg']
+      rarities: ['Normal'],
+      images: ['98558751.jpg','98558751_1.jpg', '98558751_2.jpg', '98558751_3.jpg']
     },
     {
       typeOfCard: 'MONSTER',
@@ -203,8 +203,8 @@ export const initialData: SeedData = {
       attack_points: '3000',
       defense_points: '2500',
       price: 22,
-      rarity: 'Normal',
-      images: []
+      rarities: ['Normal'],
+      images: ['49352945.jpg']
     },
     {
       typeOfCard: 'SPELL',
@@ -218,8 +218,8 @@ export const initialData: SeedData = {
       password: 34487429,
       spellType: 'Field',
       price: 2,
-      rarity: 'Normal',
-      images: []
+      rarities: ['Normal'],
+      images: ['34487429.jpg']
     },
     {
       typeOfCard: 'TRAP',
@@ -228,8 +228,8 @@ export const initialData: SeedData = {
       password: 26533075,
       trapType: 'Normal',
       price: 10,
-      rarity: 'Normal',
-      images: []
+      rarities: ['Normal'],
+      images: ['26533075.jpg']
     },
     {
       typeOfCard: 'MONSTER',
@@ -244,8 +244,8 @@ export const initialData: SeedData = {
       attack_points: '2300',
       defense_points: '2000',
       price: 8,
-      rarity: 'Normal',
-      images: ['46427957_1.jpg']
+      rarities: ['Normal'],
+      images: ['46427957.jpg', '46427957_1.jpg']
     },
     {
       typeOfCard: 'MONSTER',
@@ -261,8 +261,8 @@ export const initialData: SeedData = {
       attack_points: '1000',
       defense_points: '1000',
       price: 2,
-      rarity: 'Normal',
-      images: []
+      rarities: ['Normal'],
+      images: ['39972129.jpg']
     },
     {
       typeOfCard: 'MONSTER',
@@ -276,15 +276,15 @@ export const initialData: SeedData = {
       type: 'Fiend',
       monsterInvocation: 'PENDULUM',
       monsterPrimaryTypes: ['NORMAL'],
-      monsterSecondaryTypes: 'TUNER',
+      monsterSecondaryType: 'TUNER',
       level: 3,
       attack_points: '800',
       defense_points: '600',
       pendulumEffect: `Once per turn: You can target 1 face-up monster on the field; roll a six-sided die and that monster's Level becomes the same as the result until the end of this turn.`,
       pendulumScale: 2,
       price: 98,
-      rarity: 'Normal',
-      images: []
+      rarities: ['Normal'],
+      images: ['77994337.jpg']
     },
     {
       typeOfCard: 'MONSTER',
@@ -300,8 +300,8 @@ export const initialData: SeedData = {
       defense_points: '900',
       pendulumScale: 5,
       price: 92,
-      rarity: 'Normal',
-      images: ['31991800_1.jpg', '31991800_2.jpg']
+      rarities: ['Normal'],
+      images: ['31991800.jpg', '31991800_1.jpg', '31991800_2.jpg']
     },
     {
       typeOfCard: 'MONSTER',
@@ -319,8 +319,8 @@ export const initialData: SeedData = {
       pendulumEffect: `If you have no card in your other Pendulum Zone: You can place 1 face-up Pendulum Monster from your Extra Deck in your Pendulum Zone. You can only use this effect of "Patissciel Couverture" once per turn.`,
       pendulumScale: 1,
       price: 26,
-      rarity: 'Normal',
-      images: ['26435595_1.jpg', '26435595_2.jpg', '26435595_3.jpg', '26435595_4.jpg', '26435595_5.jpg']
+      rarities: ['Rare'],
+      images: ['26435595.jpg', '26435595_1.jpg', '26435595_2.jpg', '26435595_3.jpg', '26435595_4.jpg', '26435595_5.jpg']
     },
     {
       typeOfCard: 'MONSTER',
@@ -338,8 +338,8 @@ export const initialData: SeedData = {
       pendulumEffect: `You can target 1 Xyz Monster you control; attach this card to it as material. You can only use this effect of "Daidaratant the Ooze Giant" once per turn`,
       pendulumScale: 3,
       price: 81,
-      rarity: 'Normal',
-      images: []
+      rarities: ['Normal'],
+      images: ['39943352.jpg']
     },
   ],
   users: [

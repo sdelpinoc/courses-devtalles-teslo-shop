@@ -84,9 +84,9 @@ export const Sidebar = () => {
             <>
               {/* Line separator */}
               <div className="w-full h-px bg-gray-200 my-10" />
-              <SidebarLink text="Cards" href="/" icon={<IoIdCardOutline size={30} />} />
-              <SidebarLink text="Orders" href="/orders" icon={<IoTicketOutline size={30} />} />
-              <SidebarLink text="Users" href="/" icon={<IoPeopleOutline size={30} />} />
+              <SidebarLink text="Cards" href="/admin/cards" icon={<IoIdCardOutline size={30} />} onClickHandled={() => closeMenu()} />
+              <SidebarLink text="Orders" href="/admin/orders" icon={<IoTicketOutline size={30} />} onClickHandled={() => closeMenu()} />
+              <SidebarLink text="Users" href="/admin/users" icon={<IoPeopleOutline size={30} />} onClickHandled={() => closeMenu()} />
             </>
           )
         }

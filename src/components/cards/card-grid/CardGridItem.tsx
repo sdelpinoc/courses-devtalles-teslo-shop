@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import lodash from "lodash"
+import { CardImage } from "@/components/card/card-image/CardImage"
 // import { useState } from "react"
 
 interface Props {
@@ -56,8 +57,8 @@ export const CardGridItem = ({ card }: Props) => {
   return (
     <div className={`w-[240px] p-4 rounded-md fade-in ${bgCardColor} hover:bg-opacity-50`}>
       <Link href={`/card/${lodash.kebabCase(card.name)}`}>
-        <Image
-          src={`/img/cards/${card.password}.jpg`}
+        <CardImage
+          src={card.images[0]}
           alt={card.name}
           className="w-[200px] object-cover sm:hover:scale-150 transition-all duration-500 ease-in-out"
           height={200}

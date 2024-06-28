@@ -27,7 +27,7 @@ export interface Card {
   TrapType?: TrapTypes
 
   price: number,
-  rarity: Rarities
+  rarities: Rarities[]
   images: string[]
   inStock: number
   slug: string
@@ -109,6 +109,6 @@ export interface CartCard {
   name: string
   quantity: number
   price: number
-  rarity: Rarities
+  rarity: string
   image: string
 }
