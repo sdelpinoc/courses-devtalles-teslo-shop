@@ -36,8 +36,11 @@ export async function generateMetadata(
  
   return {
     title: card?.name ?? 'Card name not found',
+    description: card?.cardText ?? '',
     openGraph: {
-      images: [`http://localhost:3000/img/cards/${card?.password}.jpg` || '', ...previousImages],
+      title: card?.name ?? 'Card name not found',
+      description: card?.cardText ?? '',
+      images: [`/img/cards/${card?.cardImage[0].name}` || '', ...previousImages],
     },
   }
 }

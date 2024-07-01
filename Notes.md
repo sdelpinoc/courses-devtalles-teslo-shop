@@ -224,7 +224,7 @@ providers: []
 
 ## Deploy
 
-### Vercel
+### Vercel / Database
 
 - https://vercel.com/
 - Storage -> Create a postgresql database
@@ -245,3 +245,11 @@ providers: []
 ```
 "build": "npm run prisma:deploy && next build",
 ```
+
+### Vercel / Host/Repository
+
+- Create a new project and import the github repository, give permissions if necessary
+- In the Deploy options, in Environment Variables, you can copy the .env file
+- DB_NAME, DB_USER and DB_PASSWORD are not necessary, the are only needed for the docker container
+
+- Then click in Deploy
