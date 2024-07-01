@@ -31,14 +31,14 @@ export const PlaceOrder = () => {
       router.replace('/empty')
       return
     }
-  }, [])
+  }, [router, totalItemsInCart])
 
   const onPlaceOrder = async () => {
     // console.log({ cart })
     // console.log({ address })
     setIsPlacingOrder(true)
     setErrorMessage('')
-    const cardsToOrder = cart.map(item => ({ id: item.id, quantity: item.quantity, rarity: item.rarity }))
+    const cardsToOrder = cart.map(item => ({ id: item.id, quantity: item.quantity, rarities: item.rarity }))
     // console.log({ cardsToOrder })
 
     const response = await placeOrder(cardsToOrder, address)

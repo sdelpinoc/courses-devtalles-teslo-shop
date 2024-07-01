@@ -69,7 +69,7 @@ export const Sidebar = () => {
           isAuthenticated && (
             <>
               <SidebarLink text="Profile" href="/profile" icon={<IoPersonOutline size={30} />} onClickHandled={() => closeMenu()} />
-              <SidebarLink text="Orders" href="/orders" icon={<IoTicketOutline size={30} />} onClickHandled={() => closeMenu()} />
+              <SidebarLink text="My orders" href="/orders" icon={<IoTicketOutline size={30} />} onClickHandled={() => closeMenu()} />
               {
                 isAuthenticated && <SidebarLink text="Logout" href="/" icon={<IoLogOutOutline size={30} />} onClickHandled={onLogoutHandle} />
               }

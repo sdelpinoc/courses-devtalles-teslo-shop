@@ -33,7 +33,8 @@ export const AddToCart = ({ card }: Props) => {
       quantity: quantity,
       price: card.price,
       rarity: rarity,
-      image: `${card.password}.jpg`
+      // image: `${card.password}.jpg`
+      image: card.images[0]
     }
 
     addCardToCart(cartCard)

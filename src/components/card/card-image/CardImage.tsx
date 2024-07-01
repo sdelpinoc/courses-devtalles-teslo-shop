@@ -10,6 +10,7 @@ interface Props {
 }
 
 export const CardImage = ({ src, alt, className, width, height }: Props) => {
+  // console.log({ src })
   const localSrc = src
     ? src.startsWith('http')
       ? src

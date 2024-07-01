@@ -109,6 +109,6 @@ export interface CartCard {
   name: string
   quantity: number
   price: number
-  rarity: string
+  rarity: Rarities
   image: string
 }

@@ -8,7 +8,7 @@ import prisma from "@/lib/prisma"
 interface ItemsToOrder {
   id: string
   quantity: number
-  rarity: Rarities
+  rarities: Rarities
 }
 
 export const placeOrder = async (cardsId: ItemsToOrder[], address: Address) => {
@@ -38,7 +38,7 @@ export const placeOrder = async (cardsId: ItemsToOrder[], address: Address) => {
   const itemsInOrder = cardsId.reduce((total, item) => {
     return total + item.quantity
   }, 0)
-  console.log({ itemsInOrder })
+  // console.log({ itemsInOrder })
 
   // Calculate sub-total, total and tax
   const { subTotal, total, tax } = cardsId.reduce((totals, item) => {
@@ -57,7 +57,7 @@ export const placeOrder = async (cardsId: ItemsToOrder[], address: Address) => {
 
     return totals
   }, { subTotal: 0, total: 0, tax: 0 })
-  console.log({ subTotal, total, tax })
+  // console.log({ subTotal, total, tax })
 
   try {
     const prismaTx = await prisma.$transaction(async (tx) => {
@@ -107,7 +107,7 @@ export const placeOrder = async (cardsId: ItemsToOrder[], address: Address) => {
             createMany: {
               data: cardsId.map(item => ({
                 quantity: item.quantity,
-                rarity: item.rarity,
+                rarity: item.rarities,
                 cardId: item.id,
                 price: cards.find(card => card.id === item.id)?.price ?? 0
               }))

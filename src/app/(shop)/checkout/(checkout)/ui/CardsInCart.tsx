@@ -1,7 +1,5 @@
 'use client'
 
-import Image from "next/image"
-
 import { useCartStore } from "@/store/cart/cart-store"
 import { useEffect, useState } from "react"
 import { currencyFormat } from "@/utils/currencyFormat"
@@ -25,7 +23,7 @@ export const CardsInCart = () => {
       {
         loaded && cardsInCart.map(card => (
           <div key={`${card.password}-${card.rarity}`} className="flex gap-2 mb-5">
-            <CardImage src={`${card.password}.jpg`} alt={card.name} width={100} height={50} className="mr-5 rounded" />
+            <CardImage src={card.image} alt={card.name} width={100} height={50} className="mr-5 rounded" />
             <div>
               <span>{card.name} ({card.quantity})</span>
               <span className="text-xs block">Rarity: {card.rarity}</span>

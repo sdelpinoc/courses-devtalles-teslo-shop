@@ -1,13 +1,15 @@
 import { redirect } from "next/navigation";
-import Image from "next/image";
+import { auth } from "@/auth.config";
+
+import { Title } from "@/components/ui/title/Title";
 
 import { getOrderById } from "@/actions/order/get-order-by-id";
-import { Title } from "@/components/ui/title/Title";
-import { currencyFormat } from "@/utils/currencyFormat";
+
 import { PayPalButton } from "@/components/paypal/PayPalButton";
 import { OrderStatus } from "@/components/orders/OrderStatus";
-import { auth } from "@/auth.config";
 import { CardImage } from "@/components/card/card-image/CardImage";
+
+import { currencyFormat } from "@/utils/currencyFormat";
 
 interface Props {
   params: {
@@ -60,7 +62,7 @@ export default async function OrderByIdPage ({ params }: Props) {
             {
               order?.OrderItem.map(item => (
                 <div key={item.card.password + '-' + item.rarity} className="flex gap-2 mb-5">
-                  <CardImage src={`${item.card.password}.jpg`} alt={item.card.name} width={100} height={50} className="mr-5 rounded" />
+                  <CardImage src={item.card.cardImage[0].name} alt={item.card.name} width={100} height={50} className="mr-5 rounded" />
                   <div>
                     <p>{item.card.name}</p>
                     <span className="text-xs block">Rarity: {item.rarity}</span>

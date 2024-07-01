@@ -26,7 +26,8 @@ export const getOrderById = async (id: string) => {
             card: {
               select: {
                 name: true,
-                password: true
+                password: true,
+                cardImage: true
               }
             }
           }

@@ -10,7 +10,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
    - `npm install`
 
-2. Create a .env file, copying and creating a new environment variables from .env.template file
+2. Create a .env file, copying and creating news environment variables from .env.template file
 
 3. Generate the AUTH_SECRET environment variable
 
@@ -41,6 +41,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
      - Url: http://localhost:8080
      - User: ${PGADMIN_DEFAULT_EMAIL}
      - Password: ${PGADMIN_DEFAULT_PASSWORD}
+
+   - ${PGADMIN_DEFAULT_EMAIL} and ${PGADMIN_DEFAULT_PASSWORD} are obtained from the .env file
 
 ## For production
 

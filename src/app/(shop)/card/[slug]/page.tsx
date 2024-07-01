@@ -47,7 +47,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
 
   // const card = initialData.cards.find(card => lodash.kebabCase(card.name) === slug)
   const card = await getCardBySlug(slug)
-  console.log({ card })
+  // console.log({ card })
   // console.log({ 'card.monsterPrimaryTypes': card?.monsterPrimaryTypes })
 
   if (!card) {
