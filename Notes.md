@@ -201,22 +201,47 @@ providers: []
 
 ### Paypal
 
-  - https://developer.paypal.com/home/
+- https://developer.paypal.com/home/
 
-  - Go to App & Credentials, click in Create App, select merchant.
-  - Copy the Client ID and Secret Key 1 and copy them into the .env file
-  - In Testing Tools -> Sandbox Accounts, create a new Sandbox account, personal type.(Optional)
+- Go to App & Credentials, click in Create App, select merchant.
+- Copy the Client ID and Secret Key 1 and copy them into the .env file
+- In Testing Tools -> Sandbox Accounts, create a new Sandbox account, personal type.(Optional)
 
-  - We will use the account: 
-    - sb-zcupl30713415@personal.example.com
+- We will use the account:
+  - sb-zcupl30713415@personal.example.com
 
 ### React - Paypal
-  - https://www.npmjs.com/package/@paypal/react-paypal-js
-  - `npm install @paypal/react-paypal-js`
+
+- https://www.npmjs.com/package/@paypal/react-paypal-js
+- `npm install @paypal/react-paypal-js`
 
 ### Cloudinary
 
-  - https://cloudinary.com/
-  - `npm install cloudinary`
+- https://cloudinary.com/
+- `npm install cloudinary`
 
-  - Also you need to add the hostname to next.config.js file
+- Also you need to add the hostname to next.config.js file
+
+## Deploy
+
+### Vercel
+
+- https://vercel.com/
+- Storage -> Create a postgresql database
+- Copy the psql url, into the DATABASE_URL environment variable of .env
+- Now we need to do a migration with `npx prisma migrate deploy`
+- Then ejecute the seed, with `npm run seed`
+
+### Prisma
+
+- We need to create a prisma client, for this add a script in package.json
+
+```
+  "prisma:deploy": "npx prisma migrate deploy && prisma generate",
+```
+
+- And we call that script in the build
+
+```
+"build": "npm run prisma:deploy && next build",
+```
