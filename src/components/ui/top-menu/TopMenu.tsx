@@ -57,9 +57,9 @@ export const TopMenu = () => {
       </div>
       {/* Search, Cart, Menu */}
       <div className="flex items-center gap-3 mt-2">
-        <Link href="/search">
+        {/* <Link href="/search">
           <IoSearchOutline className="w-5 h-5" />
-        </Link>
+        </Link> */}
         <Link href={(loaded && totalItemsInCart > 0) ? '/cart' : '/empty'}>
           <div className="relative">
             {

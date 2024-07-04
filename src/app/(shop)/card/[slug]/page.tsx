@@ -1,4 +1,5 @@
 export const revalidate = 604800 // ~7 days
+// export const dynamic = 'force-dynamic'
 
 import Image from "next/image"
 import { notFound } from "next/navigation"
@@ -22,25 +23,25 @@ interface Props {
   }
 }
 
-export async function generateMetadata(
+export async function generateMetadata (
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
   const slug = params.slug
- 
+
   const card = await getCardBySlug(slug)
- 
+
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || []
- 
+
   return {
     title: card?.name ?? 'Card name not found',
     description: card?.cardText ?? '',
     openGraph: {
       title: card?.name ?? 'Card name not found',
       description: card?.cardText ?? '',
-      images: [`/img/cards/${card?.cardImage[0].name}` || '', ...previousImages],
+      images: [`/img/cards/${card?.cardImage[0]?.name}` || '/img/placeholder.png', ...previousImages],
     },
   }
 }
@@ -50,7 +51,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
 
   // const card = initialData.cards.find(card => lodash.kebabCase(card.name) === slug)
   const card = await getCardBySlug(slug)
-  console.log({ card })
+  // console.log({ card })
   // console.log({ 'card.monsterPrimaryTypes': card?.monsterPrimaryTypes })
 
   if (!card) {
@@ -173,7 +174,10 @@ export default async function CardPageWithSlug ({ params }: Props) {
       <div className={clsx(`grid grid-cols-1 mt-2 gap-1 lg:grid-cols-3`, {
         "justify-items-center items-center": card.images.length === 1
       })}>
-        <div className="col-span-1 lg:col-span-1">
+        {/*   */}
+        <div className={clsx("col-span-1 lg:col-span-1", {
+          "place-self-center": card.images.length <= 1
+        })}>
           {
             card.images.length > 1
               ? (
@@ -192,7 +196,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
                   />
                 </>
               )
-              : <CardImage src={`${card.images[0]}`} alt={card.name} width={300} height={437} />
+              : <CardImage src={card.images[0]} alt={card.name} width={300} height={437} />
           }
           {/* Mobile slideshow */}
         </div>
@@ -250,7 +254,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
                   {/* Types/MonsterInvocation?/MonsterAbility?/MonsterSecondaryType?/MonsterPrimaryType? */}
                   <p className="font-bold mr-1">Types:</p>
                   <span>
-                  <Image className="inline ml-2" src={`/img/types/${card.type}-LOD2.png`} alt="Attribute" width={28} height={28} /> {card.type} {card.monsterInvocation ? ` / ${lodash.capitalize(card.monsterInvocation)}` : ''}{card.monsterAbility ? ` / ${lodash.capitalize(card.monsterAbility)}` : ``}{card.monsterSecondaryTypes ? ` / ${lodash.capitalize(card.monsterSecondaryTypes)}` : ``} {card.monsterPrimaryTypes ? ` / ${card.monsterPrimaryTypes.map(lodash.capitalize).join(' / ')}` : ``}</span>
+                    <Image className="inline ml-2" src={`/img/types/${card.type}-LOD2.png`} alt="Attribute" width={28} height={28} /> {card.type} {card.monsterInvocation ? ` / ${lodash.capitalize(card.monsterInvocation)}` : ''}{card.monsterAbility ? ` / ${lodash.capitalize(card.monsterAbility)}` : ``}{card.monsterSecondaryTypes ? ` / ${lodash.capitalize(card.monsterSecondaryTypes)}` : ``} {card.monsterPrimaryTypes ? ` / ${card.monsterPrimaryTypes.map(lodash.capitalize).join(' / ')}` : ``}</span>
                 </div>
 
               )

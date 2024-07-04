@@ -274,7 +274,7 @@ export const CardForm = ({ card, fieldsData }: Props) => {
                   type="file"
                   {...register('images')}
                   multiple
-                  className="p-2 border rounded-md bg-gray-200"
+                  className="p-2 border rounded-md bg-gray-200 w-full"
                   accept="image/png, image/jpeg"
                 />
               </div>

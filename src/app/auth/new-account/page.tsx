@@ -4,7 +4,7 @@ import { RegisterForm } from "./ui/RegisterForm";
 
 export default function NewAccount () {
   return (
-    <div className="flex flex-col min-h-screen pt-32 sm:pt-52">
+    <div className="flex flex-col min-h-screen pt-32 sm:pt-52 px-4">
       <h1 className={`${titleFont.className} text-4xl mb-5`}>New account</h1>
       <RegisterForm />
     </div>

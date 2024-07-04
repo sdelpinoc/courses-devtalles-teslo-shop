@@ -1,7 +1,8 @@
 'use server'
 
-import { Attributes, LinkArrows, MonsterAbilities, MonsterInvocations, MonsterPrimaryTypes, MonsterSecondaryTypes, Rarities, SpellTypes, TrapTypes, TypeOfCard, Types } from "@/interfaces/card.interface"
 import prisma from "@/lib/prisma"
+
+import { Attributes, LinkArrows, MonsterAbilities, MonsterInvocations, MonsterPrimaryTypes, MonsterSecondaryTypes, Rarities, SpellTypes, TrapTypes, TypeOfCard, Types } from "@/interfaces/card.interface"
 
 export const getCardBySlug = async (slug: string) => {
   // console.log({ slug })
@@ -85,7 +86,7 @@ export const getCardBySlug = async (slug: string) => {
       },
       where: {
         slug: slug
-      }
+      },
     })
 
     // console.log({ card })

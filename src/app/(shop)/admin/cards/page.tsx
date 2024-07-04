@@ -31,8 +31,8 @@ export default async function OrdersPage ({ searchParams }: Props) {
           New card
         </Link>
       </div>
-      <div className="mb-10">
-        <table className="min-w-full">
+      <div className="mb-10 overflow-x-auto">
+        <table className="w-full">
           <thead className="bg-gray-200 border-b">
             <tr>
               <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">

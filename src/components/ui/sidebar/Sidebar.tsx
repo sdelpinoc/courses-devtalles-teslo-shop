@@ -45,7 +45,7 @@ export const Sidebar = () => {
       }
       {/* Sidemenu */}
       <nav className={
-        clsx("fixed p-5 right-0 top-0 w-[400px] h-screen bg-white z-[120] shadow-xl transform transition-all duration-300",
+        clsx("fixed p-5 pl-8 right-0 top-0 w-[400px] h-screen bg-white z-[120] shadow-xl transform transition-all duration-300 sm:pl-5",
           {
             "translate-x-full": !isMenuOpen
           })
@@ -55,7 +55,7 @@ export const Sidebar = () => {
           className="absolute top-5 right-5 cursor-pointer"
           onClick={() => { closeMenu() }}
         />
-        <div className="relative mt-14">
+        {/* <div className="relative mt-14">
           <IoSearchOutline size={20} className="absolute top-2 left-2" />
           <input
             name="search"
@@ -63,7 +63,7 @@ export const Sidebar = () => {
             placeholder="Search..."
             className="w-full bg-gray-50 rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-golden-yugioh"
           />
-        </div>
+        </div> */}
         {/* Menu */}
         {
           isAuthenticated && (
