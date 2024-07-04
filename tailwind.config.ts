@@ -14,7 +14,6 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        // 'monster': '#b58760',
         'spell': '#1d9e74',
         'trap': '#bc5a84',
         'character': '#f8f9fb',
@@ -28,9 +27,6 @@ const config: Config = {
         'monster-ritual': '#538dd5',
         'monster-xyz': '#000',
         'monster-link': '#538dd5',
-
-        // 'spell-bg': '#1d9e74',
-        // 'trap-bg': '#bc5a84'
       }
     },
   },
