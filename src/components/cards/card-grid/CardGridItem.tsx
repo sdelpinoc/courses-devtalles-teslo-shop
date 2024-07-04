@@ -71,10 +71,10 @@ export const CardGridItem = ({ card }: Props) => {
         />
       </Link>
       <div className="p-4 flex flex-col">
-        <Link href={`/card/${lodash.kebabCase(card.name)}`}>
+        <Link className="text-center" href={`/card/${lodash.kebabCase(card.name)}`}>
           {card.name}
         </Link>
-        <span className="font-bold">${card.price}</span>
+        <span className="font-bold text-center">${card.price}</span>
       </div>
     </div>
   )
