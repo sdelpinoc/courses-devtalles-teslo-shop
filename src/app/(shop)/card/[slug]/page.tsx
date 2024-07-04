@@ -50,7 +50,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
 
   // const card = initialData.cards.find(card => lodash.kebabCase(card.name) === slug)
   const card = await getCardBySlug(slug)
-  // console.log({ card })
+  console.log({ card })
   // console.log({ 'card.monsterPrimaryTypes': card?.monsterPrimaryTypes })
 
   if (!card) {
@@ -209,10 +209,10 @@ export default async function CardPageWithSlug ({ params }: Props) {
                 {lodash.capitalize(card.typeOfCard)}
               </span>
               {
-                card.typeOfCard === 'SPELL' && (<Image className="inline ml-1 align-middle" src={`/img/Spell.svg`} alt={card.typeOfCard} width={28} height={28} />)
+                card.typeOfCard === 'SPELL' && (<Image className="inline ml-1 align-middle" src={`/img/SPELL.svg`} alt={card.typeOfCard} width={28} height={28} />)
               }
               {
-                card.typeOfCard === 'TRAP' && (<Image className="inline ml-1 align-middle" src={`/img/Trap.svg`} alt={card.typeOfCard} width={28} height={28} />)
+                card.typeOfCard === 'TRAP' && (<Image className="inline ml-1 align-middle" src={`/img/TRAP.svg`} alt={card.typeOfCard} width={28} height={28} />)
               }
             </div>
             {
@@ -250,7 +250,7 @@ export default async function CardPageWithSlug ({ params }: Props) {
                   {/* Types/MonsterInvocation?/MonsterAbility?/MonsterSecondaryType?/MonsterPrimaryType? */}
                   <p className="font-bold mr-1">Types:</p>
                   <span>
-                    {card.type} {card.monsterInvocation ? ` / ${lodash.capitalize(card.monsterInvocation)}` : ''}{card.monsterAbility ? ` / ${lodash.capitalize(card.monsterAbility)}` : ``}{card.monsterSecondaryTypes ? ` / ${lodash.capitalize(card.monsterSecondaryTypes)}` : ``} {card.monsterPrimaryTypes ? ` / ${card.monsterPrimaryTypes.map(lodash.capitalize).join(' / ')}` : ``}</span>
+                  <Image className="inline ml-2" src={`/img/types/${card.type}-LOD2.png`} alt="Attribute" width={28} height={28} /> {card.type} {card.monsterInvocation ? ` / ${lodash.capitalize(card.monsterInvocation)}` : ''}{card.monsterAbility ? ` / ${lodash.capitalize(card.monsterAbility)}` : ``}{card.monsterSecondaryTypes ? ` / ${lodash.capitalize(card.monsterSecondaryTypes)}` : ``} {card.monsterPrimaryTypes ? ` / ${card.monsterPrimaryTypes.map(lodash.capitalize).join(' / ')}` : ``}</span>
                 </div>
 
               )

@@ -301,7 +301,7 @@ export const initialData: SeedData = {
       pendulumScale: 5,
       price: 92,
       rarities: ['Normal'],
-      images: ['31991800.jpg', '31991800_1.jpg', '31991800_2.jpg']
+      images: ['31991800.jpg']
     },
     {
       typeOfCard: 'MONSTER',
