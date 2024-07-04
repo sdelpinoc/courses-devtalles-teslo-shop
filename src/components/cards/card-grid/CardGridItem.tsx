@@ -55,7 +55,7 @@ export const CardGridItem = ({ card }: Props) => {
   }
 
   return (
-    <div className={`p-4 rounded-md fade-in ${bgCardColor} hover:bg-opacity-50`}>
+    <div className={`p-4 rounded-md fade-in ${bgCardColor} hover:bg-opacity-50 flex flex-col items-center`}>
       <Link href={`/card/${lodash.kebabCase(card.name)}`}>
         <CardImage
           src={card.images[0]}

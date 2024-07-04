@@ -7,7 +7,7 @@ interface Props {
 
 export const CardGrid = ({ cards }: Props) => {
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,_minmax(min(200px,100%),1fr))] gap-2 mb-2 justify-items-center">
+    <div className="grid grid-cols-[repeat(auto-fit,_minmax(min(200px,100%),1fr))] gap-2 mb-2 sm:justify-items-center">
       {
         cards.map(card => (
           <CardGridItem key={card.password} card={card} />
